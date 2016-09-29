@@ -1,0 +1,21 @@
+<code class="bash" data-trim>$ curl \
+    http://localhost:5000/v2/ownership/5f5c1ded-32e7-4fb2-9b6f-b0aa05616d67
+{
+  "owner": "511363b2-8693-4b30-ae4c-09964a4cebe0", 
+  "pet": "a8533344-6371-4982-a86b-722331839514", 
+  "id": "5f5c1ded-32e7-4fb2-9b6f-b0aa05616d67", 
+  "links": [
+    {
+      "href": "/v2/owners/511363b2-8693-4b30-ae4c-09964a4cebe0", 
+      "rel": "owner"
+    }, 
+    {
+      "href": "/v2/pets/a8533344-6371-4982-a86b-722331839514", 
+      "rel": "pet"
+    }, 
+    {
+      "href": "/v2/ownership/5f5c1ded-32e7-4fb2-9b6f-b0aa05616d67", 
+      "rel": "self"
+    }
+  ]
+}</code>

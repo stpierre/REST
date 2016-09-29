@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Writing and consuming REST services</title>
+
+    <link rel="stylesheet" href="../css/reveal.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/theme/solarized.css" id="theme"/>
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css"/>
+
+    <link rel="stylesheet" href="../local/presentation.css"/>
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../css/print/pdf.css' : '../css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+	<script src="../lib/js/html5shiv.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section id="title">
+          <h2>Writing and consuming REST services</h2>
+
+          <p><small>Chris St. Pierre
+              - <a href="http://twitter.com/chris_st_pierre">@chris_st_pierre</a></small></p>
+
+          <h3>Follow along at
+              <a href="https://stpierre.github.io/REST/">stpierre.github.io/REST/</a></h3>
+        </section>
+
+        <section id="what-is-rest">
+          <p class="acronym"><b>RE</b>presentational<br/>
+            <b>S</b>tate<br/>
+            <b>T</b>ransfer</p>
+
+          <aside class="notes">
+            <ul>
+              <li>Acronym tells you nothing</li>
+              <li>For our purposes: a way to expose remote APIs over
+                HTTP(S)</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="api">
+          <pre class="wide"><code data-trim>
+import sandwiches
+
+sandwiches.make_me_a_sandwich("ham")
+          </code></pre>
+
+          <aside class="notes">
+            Your API might look like this. But how do I make a
+            sandwich from another host?
+
+            You could write your own protocol, but writing protocols
+            is hard. And how do you add security, or caching, or
+            zipped replies, or...?
+          </aside>
+        </section>
+
+        <section id="rest-api">
+          <pre class="wide"><code class="bash" data-trim>
+              curl -X POST -d '{"type": "ham"}' \
+    https://sandwiches.example.com/sandwiches
+          </code></pre>
+
+          <aside class="notes">
+            We can leverage HTTP to get lots of stuff for free. The
+            transport, obviously, but also encryption, authentication
+            and authorization, proxies, load balancing, and on and on
+          </aside>
+        </section>
+
+        <section id="good-rest-apis">
+          <div class="tooltip-buttons">
+            <button class="worst-practice" data-toggle="tooltip"
+                    title="Click on this symbol for details about how bad REST APIs sometimes work!"></button>
+          </div>
+
+          <h3>Let's talk about <i>good</i> REST APIs.</h3>
+
+          <aside class="notes">
+            There are lots of awful REST APIs out there. You'll have
+            to rely on their docs, which is a shame because bad APIs
+            usually have bad docs. There are a million ways to write
+            terrible REST APIs, and I can't cover them all. The
+            relevant RFCs are really new, and full of SHOULDs. I'm
+            going to talk about idealized APIs (which are the kind you
+            should write) only.
+          </aside>
+        </section>
+
+        <section id="practical-rest-apis">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                  title="Click on this symbol for a little note about the academic details or underpinnings of REST.<br/><br/>For instance, for a little light reading check out <a href='http://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf'>Roy Fielding's dissertation on REST</a>."></button>
+          </div>
+
+          <h3>Let's talk about <i>practical</i> REST APIs.</h3>
+
+          <aside class="notes">
+            REST is super academic, and at times it goes way off the
+            rails into theory. Technically REST doesn't have anything
+            to do with HTTP, but everyone uses HTTP. Technically
+            resources just need identifiers, but everyone uses
+            URIs. And so on....
+          </aside>
+        </section>
+
+        <section id="liberal-rest-apis">
+          <div class="tooltip-buttons">
+            <button class="holy-war" data-toggle="tooltip"
+                    title="Click on this symbol for a bona fide holy war!"></button>
+          </div>
+
+          <h3>Let's be liberal in what we accept.</h3>
+
+          <aside class="notes">
+            Holy wars abound. We can leave them behind.
+          </aside>
+        </section>
+
+        <section id="soap-and-xml-rpc">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                    title="<a href='https://github.com/stpierre/REST/xml-rpc-drawbacks.rst'>Some problems with XML-RPC</a>"></button>
+          </div>
+
+          <h2>What about SOAP and XML-RPC?</h2>
+
+          <aside class="notes">
+            <ul>
+              <li>They serve similar purposes!</li>
+              <li>SOAP is extremely complex and so never really caught
+                on</li>
+              <li>XML-RPC is simpler, but has many drawbacks.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="introducing-the-app">
+          <p><a href="https://github.com/stpierre/REST/service.py">stpierre.github.io/REST/service.py</a></p>
+
+          <aside class="notes">
+            TODO: data relation diagram?
+
+            Tracks pets, veterinarians, and owners.
+
+            You can run this app locally if you want! Or just look at
+            the source code. It uses Flask -- plug!
+
+            This basic, one-file app tracks pets, their owners, and
+            their veterinarians. All subsequent examples will come
+            from this app.
+          </aside>
+        </section>
+
+        <section id="verbs-and-resources">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                    title="The technically correct terms are 'verbs' and 'resources,' but in HTTP REST APIs you will commonly hear 'methods' and 'endpoints' used interchangeably. Occasionally the signifier even becomes the signified and someone will use 'URI' to mean 'resource.'"></button>
+          </div>
+
+          <h3>Verbs (or methods) and<br>resources (or endpoints)</h3>
+
+          <aside class="notes">
+            REST consists two things: The resource (or endpoint) is
+            the thing you are operating on. And the verb is what you
+            are doing to it.
+          </aside>
+        </section>
+
+        <section id="verbs-and-endpoints-example">
+          <pre class="wide" id="get-endpoints"
+               service-uri="/v1/pets/" command-style="http"></pre>
+        </section>
+
+        <section id="verbs-get">
+          <h2>GET</h2>
+          <h3>List/read</h3>
+
+          <aside class="notes">
+            Basically, read. Used for both collections and specific
+            records.
+          </aside>
+        </section>
+
+        <section id="get-collection-example">
+          <pre class="wide" id="get-collection" service-uri="/v1/owners/"></pre>
+        </section>
+
+        <section id="get-resource-example">
+          <pre class="wide" id="get-record"
+               service-uri="/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0"></pre>
+        </section>
+
+        <section id="get-collection-querystring-example">
+          <pre class="wide" id="get-collection-querystring"
+               service-uri="/v1/owners/?limit=1&detail=1"></pre>
+
+          <aside class="notes">
+            * parameters can be passed as query string
+            * two common ones limit the size of a list, and modify the
+            data from a GET
+            * this can make some operations much faster
+          </aside>
+        </section>
+
+        <section id="uri-structure">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                    title="Technically, REST just uses <i>identifiers</i>, and those identifiers can be anything. But since every REST API you're likely to care about uses HTTP, and every decent HTTP REST API uses URIs as identifiers, we're just going to talk about URIs here."></button>
+
+            <button class="holy-war" data-toggle="tooltip"
+                    title="Most people agree that the resource name should be plural, but there's a significant contingent of singular partisans, and even some people who think your application should support both."></button>
+          </div>
+
+          <pre class="wide">/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0</pre>
+
+          <aside class="notes">
+            TODO: highlight bits of this
+            * version
+            * resource
+            * id (optional)
+
+            * might have other stuff after the id -- actions,
+            subcollections, etc. (TODO: examples)
+          </aside>
+        </section>
+
+        <section id="links">
+          <pre class="wide" id="links-list" service-uri="/v1/owners/"></pre>
+
+          <pre class="wide" id="links-detail"
+               service-uri="/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b"></pre>
+
+          <aside class="notes">
+            * discoverability
+            * super freaking academic at times
+            * nice to have, but literally every single client is going
+            to use your docs anyway
+          </aside>
+        </section>
+
+        <section id="yo-dawg-we-heard-you-liked-links">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                    title="In theory, the only documentation the end user should ever need is the base entry point into your application. In practice, every application needs lots of documentation, and REST purists can just get over their irrational fear of coupling. Use a good automatic docs generator."></button>
+          </div>
+
+          <pre class="wide" id="omg-links"
+               service-uri="/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b"></pre>
+
+          <aside class="notes">
+            Links can get way out of hand. Most of this is academic
+            nonsense anyway.
+          </aside>
+        </section>
+
+        <section id="HATEOAS">
+          <div class="tooltip-buttons">
+            <button class="holy-war" data-toggle="tooltip"
+                  title="People get <i>really</i> worked up over HATEOAS. Jeff Knupp even <a href='https://jeffknupp.com/blog/2014/06/03/why-i-hate-hateoas/'>specifically calls out Fielding for his over-the-top purism</a>. I tend to side with Knupp."></button>
+          </div>
+
+          <p class="acronym"><b>H</b>ypertext<br/>
+            <b>A</b>s<br/>
+            <b>T</b>he<br/>
+            <b>E</b>ngine<br/>
+            <b>O</b>f<br/>
+            <b>A</b>pplication<br/>
+            <b>S</b>tate</p>
+
+          <aside class="notes">
+            Basically, HATEOAS means "use lots of links." In theory,
+            blah blah blah.
+          </aside>
+        </section>
+
+        <section id="verbs-post">
+          <h2>POST</h2>
+          <h3>Create</h3>
+
+          <aside class="notes">
+            Mostly create. Generally POST to a collection to create a
+            new record, but POST is also sometimes used for actions
+            that don't conform to basic CRUD ops.
+          </aside>
+        </section>
+
+        <section id="post-example">
+          <pre class="wide" id="post" verb="POST"
+               service-uri="/v1/owners/"
+               data="{&quot;name&quot;:&quot;Jovka Garver&quot;,&quot;birthday&quot;:&quot;1983-02-26&quot;}"></pre>
+        </section>
+
+        <section id="return-values">
+          <div class="tooltip-buttons">
+            <button class="worst-practice" data-toggle="tooltip"
+                    title="Some REST APIs, like <a href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#output'>Gerrit's</a>, as well as many of Google's and Facebook's APIs, use a &quot;magic prefix&quot; to prevent XSS instead of just returning objects. This is super annoying, since you can't just deserialize the response like most REST libraries want to, but it can help prevent some obscure attacks."></button>
+          </div>
+
+          <pre class="wide" id="get-collection-retval"
+               service-uri="/v1/owners/?limit=1"></pre>
+
+          <aside class="notes">
+            * JSON
+            * objects not lists
+          </aside>
+        </section>
+
+        <section id="return-values-non-json">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://someapp.example.com/v1/books/1
+{"title": "Moby Dick", "text": "Call me Ishmael. Some years ago...."}
+          </code></pre>
+
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -H "Accept: text/plain" http://someapp.example.com/v1/books/1
+Moby Dick
+
+Call me Ishmael. Some years ago....
+          </code></pre>
+
+          <aside class="notes">
+            more complex applications can use the Accept and
+            Content-Type header to get data in different formast
+          </aside>
+        </section>
+
+        <section id="return-values-gzip">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
+      gunzip -c
+{"title": "Moby Dick", "text": "Call me Ishmael. Some years ago...."}
+          </code></pre>
+
+          <aside class="notes">
+            Useful for large result sets.
+          </aside>
+        </section>
+
+        <section id="verbs-put">
+          <h2>PUT</h2>
+          <h3>Create/update (idempotent)</h3>
+
+          <aside class="notes">
+            Mostly modify.
+          </aside>
+        </section>
+
+        <section id="put-modify-example-step1">
+          <pre class="wide" id="put-modify-step1"
+               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"></pre>
+        </section>
+
+        <section id="put-modify-example-step2">
+          <pre class="wide" id="put-modify-step2" verb="PUT"
+               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
+               data="{&quot;name&quot;:&quot;Jolanda Seaver&quot;,&quot;birthday&quot;:&quot;1996-08-29&quot;,&quot;shoe_size&quot;:9}"></pre>
+
+          <aside class="notes">
+            * have to specify the entire record
+          </aside>
+        </section>
+
+        <section id="put-modify-bad-example">
+          <pre class="wide" id="put-modify-bad" verb="PUT"
+               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
+               data="{&quot;shoe_size&quot;:9}"
+               allow-error="true"></pre>
+
+          <aside class="notes">
+            * if you omit fields that can legally be omitted, they
+            will probably be removed from the record
+          </aside>
+        </section>
+
+        <section id="put-idempotent-show-vet">
+          <pre class="wide" id="put-idempotent-show-vet-output"
+               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262"></pre>
+        </section>
+
+        <section id="put-idempotent-show-vet-patients">
+          <pre class="wide" id="put-idempotent-show-vet-patients-output"
+               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/"></pre>
+        </section>
+
+        <section id="put-idempotent-do-put">
+          <pre class="wide" id="put-idempotent-do-put-output" verb="PUT"
+               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940" ></pre>
+        </section>
+
+        <section id="put-idempotent-show-vet-patients-after">
+          <pre class="wide" id="put-idempotent-show-vet-patients-after-output"
+               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/"></pre>
+        </section>
+
+        <section id="put-demonstrate-idempotency">
+          <div class="tooltip-buttons">
+            <button class="worst-practice" data-toggle="tooltip"
+                    title="<b>Lots</b> and lots of APIs don't implement creation via PUT. Often this is for good reasons -- like IDs that must be auto-generated -- but sometimes it's just laziness.<br/><br/><a href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#preconditions'>Gerrit's REST API</a> implements PUT to only be idempotent if you specifically ask it to be, so clearly they know how to do the right thing but decided not to."></button>
+          </div>
+
+          <pre class="wide" id="put-demonstrate-idempotency-output" verb="PUT"
+               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940" ></pre>
+
+          <aside class="notes">
+            200 vs. 201
+          </aside>
+        </section>
+
+        <section id="put-idempotent-compare-post">
+          <pre class="wide" id="put-idempotent-compare-post-output" verb="POST"
+               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/"
+               data="{&quot;pet_id&quot;:&quot;d25dcdd0-28f4-4fd3-9e5f-da1d9d224940&quot;}"
+               allow-error="true"></pre>
+
+          <aside class="notes">
+            409
+          </aside>
+        </section>
+
+        <section id="relationships">
+          <h2>Demonstrating Relationships</h2>
+          <h3>One-to-one, one-to-many, many-to-many</h3>
+
+          <aside class="notes">
+            Only two patterns
+          </aside>
+        </section>
+
+        <section id="one-to-N-get">
+          <pre class="wide" id="one-to-N-get-output"
+               service-uri="/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e"></pre>
+        </section>
+
+        <section id="one-to-N-vet-output">
+          <pre class="wide" id="one-to-N-vet-output"
+               service-uri="/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/"></pre>
+        </section>
+
+        <section id="one-to-N-detail">
+          <pre class="wide" id="one-to-N-detail-output"
+               service-uri="/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/?detail=1"></pre>
+        </section>
+
+        <section id="many-to-N-get">
+          <pre class="wide" id="many-to-N-get-output"
+               service-uri="/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec"></pre>
+        </section>
+
+        <section id="many-to-N-owners">
+          <pre class="wide" id="many-to-N-owners-output"
+               service-uri="/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec/owners/"></pre>
+        </section>
+
+        <section id="first-class-relationships">
+          <pre class="wide" id="first-class-relationships-output"
+               service-uri="/v2/ownership/5f5c1ded-32e7-4fb2-9b6f-b0aa05616d67"></pre>
+
+          <aside class="notes">
+            Better for historical data.
+          </aside>
+        </section>
+
+        <section id="verbs-patch">
+          <h2>PATCH</h2>
+          <h3>Update</h3>
+        </section>
+
+        <section id="patch-example">
+          <pre class="wide" id="patch" verb="PATCH"
+               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
+               data="{&quot;shoe_size&quot;:9.5}"></pre>
+        </section>
+
+        <section id="patch-update-relationships-pre">
+          <pre class="wide" id="patch-update-relationships-pre-output"
+               service-uri="/v1/pets/bf61616c-010e-48f2-8173-78b330804cd6"></pre>
+        </section>
+
+        <section id="patch-update-relationships">
+          <pre class="wide" id="patch-update-relationships-output" verb="PATCH"
+               service-uri="/v2/pets/bf61616c-010e-48f2-8173-78b330804cd6"
+               data="{&quot;veterinarian&quot;:&quot;3cfbb699-d2f2-45cd-b932-be5171887262&quot;,&quot;owners&quot;:[&quot;ee5479d6-7070-4109-bfb2-d44e3c42782b&quot;]}"></pre>
+          <aside class="notes">
+            Modified resource is always returned
+          </aside>
+        </section>
+
+        <section id="verbs-delete">
+          <h2>DELETE</h2>
+        </section>
+
+        <section id="delete-example">
+          <pre class="wide" id="delete" verb="DELETE"
+               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"></pre>
+
+          <aside class="notes">
+            204
+          </aside>
+        </section>
+
+        <section id="return-codes">
+          <h3>Return codes</h3>
+
+          <aside class="notes">
+            Use HTTP return codes
+          </aside>
+        </section>
+
+        <section id="delete-404-example">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                    title="The
+                           <a href=&quot;http://www.restapitutorial.com/httpstatuscodes.html&quot;>full
+                             list of HTTP return codes</a>, including the
+                           ever-useful 418."></button>
+          </div>
+
+          <pre class="wide" id="delete-404" verb="DELETE"
+               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
+               allow-error="true"></pre>
+        </section>
+
+        <section id="put-409-example">
+          <pre class="wide" id="put-409-output" verb="POST"
+               service-uri="/v1/veterinarians/f5df1cc0-4fa2-4605-af57-4da6479e8afa/patients/"
+               data="{&quot;pet_id&quot;:&quot;a8533344-6371-4982-a86b-722331839514&quot;}"
+               allow-error="true"></pre>
+        </section>
+
+        <section id="verb-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Verb</th>
+                <th>Collection operation</th>
+                <th>Record operation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GET</td>
+                <td>List</td>
+                <td>Read</td>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td>Create</td>
+                <td>N/A</td>
+              </tr>
+              <tr>
+                <td>PUT</td>
+                <td>N/A</td>
+                <td>Update/replace (idempotent)</td>
+              </tr>
+              <tr>
+                <td>PATCH</td>
+                <td>N/A</td>
+                <td>Partial update/modify</td>
+              </tr>
+              <tr>
+                <td>DELETE</td>
+                <td>Delete (rarely)</td>
+                <td>Delete</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="caching">
+          <h3>Authentication</h3>
+        </section>
+
+        <section id="auth-every-time">
+          <pre class="wide" id="auth-every-time-401" verb="DELETE"
+               service-uri="/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d"
+               allow-error="true"></pre>
+
+          <pre class="wide" id="auth-every-time-output" verb="DELETE"
+               service-uri="/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d"
+               authenticate="true"></pre>
+
+          <aside class="notes">
+            * simple!
+            * slow?
+          </aside>
+        </section>
+
+        <section id="auth-token-in-header">
+          <pre class="wide" id="auth-token-get-token"
+               service-uri="/v1/token/" authenticate="true"></pre>
+
+          <pre class="wide" id="auth-token-in-header-use-token" verb="DELETE"
+               service-uri="/v2/pets/18e1588a-090e-4ace-94c2-f289617de0cb"
+               headers="{&quot;X-Token&quot;:&quot;6158a4ff-8d50-47bd-8316-c0008b7cbc88&quot;}"></pre>
+
+          <aside class="notes">
+            * more complicated
+            * not so great actually
+          </aside>
+        </section>
+
+        <section id="auth-token-in-cookie">
+          <pre class="wide" id="auth-token-get-cookie"
+               service-uri="/v2/token/" authenticate="true"
+               cookies="display"></pre>
+
+          <pre class="wide" id="auth-token-in-cookie-use-token" verb="DELETE"
+               service-uri="/v2/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262"
+               cookies="use"></pre>
+
+          <aside class="notes">
+            * self-documenting
+          </aside>
+        </section>
+
+
+        <section id="TODO">
+          * caching
+        </section>
+
+
+
+      </div>
+    </div>
+    <script src="../lib/js/head.min.js"></script>
+    <script src="../js/reveal.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../local/presentation.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+      // Optional reveal.js plugins
+      dependencies: [
+      { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: '../plugin/zoom-js/zoom.js', async: true },
+      { src: '../plugin/notes/notes.js', async: true }
+      ]
+      });
+
+    </script>
+
+  </body>
+</html>

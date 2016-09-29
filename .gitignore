@@ -1,0 +1,3 @@
+service.pid
+venv
+*.py[co]

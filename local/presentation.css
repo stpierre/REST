@@ -1,0 +1,46 @@
+pre.wide {
+    text-align: left;
+    width: 100%;
+}
+
+.reveal .acronym {
+    text-align: left;
+    margin-left: 35%
+}
+
+button.worst-practice, button.academic, button.holy-war {
+    border: 0;
+    box-shadow: 0 0 0;
+    width: 64px;
+    height: 64px;
+    display: none;
+}
+
+.tooltip-buttons {
+    border: 0;
+    box-shadow: 0 0 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+    z-index: 30;
+}
+
+button.worst-practice {
+    background: url('../images/flame.png');
+}
+
+button.academic {
+    background: url('../images/bookshelf.png');
+}
+
+button.holy-war {
+    background: url('../images/bomb.png');
+}
+
+div.tooltip-inner {
+    background: #002b36;
+    color: #eee8d5;
+    font-size: small;
+    padding: 5px;
+}

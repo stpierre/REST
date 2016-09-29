@@ -1,0 +1,31 @@
+<code class="bash" data-trim>$ curl \
+    http://localhost:5000/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec
+{
+  "owners": [
+    "35a85559-dc03-4aa2-85d2-947e17e310e5", 
+    "5e174bc4-4135-4e7b-b957-9705bacc903d"
+  ], 
+  "name": "Scarface", 
+  "links": [
+    {
+      "href": "/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec", 
+      "rel": "self"
+    }, 
+    {
+      "href": "/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5", 
+      "rel": "owner"
+    }, 
+    {
+      "href": "/v1/owners/5e174bc4-4135-4e7b-b957-9705bacc903d", 
+      "rel": "owner"
+    }, 
+    {
+      "href": "/v1/veterinarians/f5df1cc0-4fa2-4605-af57-4da6479e8afa", 
+      "rel": "veterinarian"
+    }
+  ], 
+  "breed": "English Bulldog", 
+  "id": "4dc4d7b0-a386-4919-9878-47d4eb8f49ec", 
+  "veterinarian": "f5df1cc0-4fa2-4605-af57-4da6479e8afa", 
+  "species": "dog"
+}</code>

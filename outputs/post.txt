@@ -1,0 +1,28 @@
+<code class="bash" data-trim>$ curl -X POST -d '{"name":"Jovka Garver","birthday":"1983-02-26"}' -H \
+    'Content-Type: application/json' http://localhost:5000/v1/owners/
+{
+
+  "birthday": "1983-02-26", 
+
+  "id": "7dcfe96d-32c5-48a9-8a2b-2c2330fdbacf", 
+
+  "links": [
+
+    {
+
+      "href": "/v1/owners/7dcfe96d-32c5-48a9-8a2b-2c2330fdbacf", 
+
+      "rel": "self"
+
+    }
+
+  ], 
+
+  "name": "Jovka Garver", 
+
+  "pets": []
+
+}
+
+# HTTP code: 201
+</code>

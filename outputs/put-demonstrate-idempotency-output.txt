@@ -1,0 +1,48 @@
+<code class="bash" data-trim>$ curl -X PUT \
+    http://localhost:5000/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940
+{
+
+  "links": [
+
+    {
+
+      "href": "/v1/pets/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262", 
+
+      "rel": "self"
+
+    }, 
+
+    {
+
+      "href": "/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262", 
+
+      "rel": "veterinarian"
+
+    }, 
+
+    {
+
+      "href": "/v1/pets/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940", 
+
+      "rel": "patient"
+
+    }
+
+  ], 
+
+  "patient": {
+
+    "id": "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
+
+  }, 
+
+  "veterinarian": {
+
+    "id": "3cfbb699-d2f2-45cd-b932-be5171887262"
+
+  }
+
+}
+
+# HTTP code: 200
+</code>

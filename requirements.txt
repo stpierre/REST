@@ -1,0 +1,6 @@
+Flask
+flask-restful
+beautifulsoup4
+requests
+six
+ddt

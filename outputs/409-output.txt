@@ -1,0 +1,36 @@
+<code class="bash" data-trim>$ curl -X PUT \
+    http://localhost:5000/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/fd87a620-466d-41ae-a6b0-1527b5126c58
+{
+  "veterinarian": {
+    "id": "fd87a620-466d-41ae-a6b0-1527b5126c58", 
+    "links": [
+      {
+        "href": "/v1/veterinarians/fd87a620-466d-41ae-a6b0-1527b5126c58", 
+        "rel": "self"
+      }
+    ]
+  }, 
+  "patient": {
+    "id": "72f12e94-33ca-4537-9897-205ffe42350e", 
+    "links": [
+      {
+        "href": "/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e", 
+        "rel": "self"
+      }
+    ]
+  }, 
+  "links": [
+    {
+      "href": "/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarians/fd87a620-466d-41ae-a6b0-1527b5126c58", 
+      "rel": "self"
+    }, 
+    {
+      "href": "/v1/veterinarians/fd87a620-466d-41ae-a6b0-1527b5126c58", 
+      "rel": "veterinarian"
+    }, 
+    {
+      "href": "/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e", 
+      "rel": "patient"
+    }
+  ]
+}</code>
