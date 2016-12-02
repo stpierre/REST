@@ -5,14 +5,15 @@ CWD := $(shell pwd)
 all:	test outputs run
 
 container:	Dockerfile
-	sudo docker build --rm -t stpierre/REST $(CWD)
+	sudo docker build --rm -t stpierre/rest $(CWD)
 
 run:	container
 	sudo docker run -d -p 8000:8000 \
 	    -v $(CWD)/local:/opt/reveal.js/local \
 	    -v $(CWD)/index.html:/opt/reveal.js/index.html \
 	    -v $(CWD)/images:/opt/reveal.js/images \
-	    --name REST stpierre/REST
+	    -v $(CWD)/outputs:/opt/reveal.js/outputs \
+	    --name REST stpierre/rest
 
 stop:
 	sudo docker stop REST

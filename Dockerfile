@@ -28,6 +28,7 @@ RUN wget -O /opt/reveal.js/js/bootstrap.min.js \
 VOLUME /opt/reveal.js/local
 VOLUME /opt/reveal.js/index.html
 VOLUME /opt/reveal.js/images
+VOLUME /opt/reveal.js/outputs
 
 EXPOSE 8000
 

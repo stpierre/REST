@@ -385,7 +385,8 @@ class CollectionMixin(BaseMixin):
         keys = DATA[self.datasource].keys()
         if limit > 0:
             keys = keys[0:limit]
-        retval = [self.marshal(k, detailed=detailed) for k in keys]
+        retval = [self.marshal(k, links=detailed if detailed else "self",
+                               detailed=detailed) for k in keys]
         return flask.jsonify({self.collection_name: retval})
 
     def post(self):

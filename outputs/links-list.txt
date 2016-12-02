@@ -7,14 +7,6 @@
         {
           "href": "/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0", 
           "rel": "self"
-        }, 
-        {
-          "href": "/v1/pets/a8533344-6371-4982-a86b-722331839514", 
-          "rel": "pet"
-        }, 
-        {
-          "href": "/v1/pets/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940", 
-          "rel": "pet"
         }
       ]
     }, 
@@ -24,14 +16,6 @@
         {
           "href": "/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b", 
           "rel": "self"
-        }, 
-        {
-          "href": "/v1/pets/00182d56-9981-402b-821e-7b1c2906533c", 
-          "rel": "pet"
-        }, 
-        {
-          "href": "/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e", 
-          "rel": "pet"
         }
       ]
     }, 
@@ -41,14 +25,6 @@
         {
           "href": "/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5", 
           "rel": "self"
-        }, 
-        {
-          "href": "/v1/pets/18e1588a-090e-4ace-94c2-f289617de0cb", 
-          "rel": "pet"
-        }, 
-        {
-          "href": "/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec", 
-          "rel": "pet"
         }
       ]
     }, 
@@ -58,10 +34,6 @@
         {
           "href": "/v1/owners/5e174bc4-4135-4e7b-b957-9705bacc903d", 
           "rel": "self"
-        }, 
-        {
-          "href": "/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec", 
-          "rel": "pet"
         }
       ]
     }

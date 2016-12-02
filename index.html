@@ -50,8 +50,7 @@
           <aside class="notes">
             <ul>
               <li>Acronym tells you nothing</li>
-              <li>For our purposes: a way to expose remote APIs over
-                HTTP(S)</li>
+              <li>a way to expose remote APIs over HTTP(S)</li>
             </ul>
           </aside>
         </section>
@@ -64,12 +63,11 @@ sandwiches.make_me_a_sandwich("ham")
           </code></pre>
 
           <aside class="notes">
-            Your API might look like this. But how do I make a
-            sandwich from another host?
-
-            You could write your own protocol, but writing protocols
-            is hard. And how do you add security, or caching, or
-            zipped replies, or...?
+            <ul>
+              <li>From another host?</li>
+              <li>writing your own protocol is hard</li>
+              <li>full-featured even harder</li>
+            </ul>
           </aside>
         </section>
 
@@ -80,9 +78,9 @@ sandwiches.make_me_a_sandwich("ham")
           </code></pre>
 
           <aside class="notes">
-            We can leverage HTTP to get lots of stuff for free. The
-            transport, obviously, but also encryption, authentication
-            and authorization, proxies, load balancing, and on and on
+            HTTP gives lots of stuff for free: transport, also
+            encryption, authentication and authorization, proxies,
+            load balancing,...
           </aside>
         </section>
 
@@ -131,7 +129,7 @@ sandwiches.make_me_a_sandwich("ham")
           <h3>Let's be liberal in what we accept.</h3>
 
           <aside class="notes">
-            Holy wars abound. We can leave them behind.
+            Holy wars abound. Leave them behind.
           </aside>
         </section>
 
@@ -145,10 +143,9 @@ sandwiches.make_me_a_sandwich("ham")
 
           <aside class="notes">
             <ul>
-              <li>They serve similar purposes!</li>
-              <li>SOAP is extremely complex and so never really caught
-                on</li>
-              <li>XML-RPC is simpler, but has many drawbacks.</li>
+              <li>Serve similar</li>
+              <li>SOAP: super complex, never really caught on</li>
+              <li>XML-RPC: simpler, drawbacks.</li>
             </ul>
           </aside>
         </section>
@@ -156,17 +153,13 @@ sandwiches.make_me_a_sandwich("ham")
         <section id="introducing-the-app">
           <p><a href="https://github.com/stpierre/REST/service.py">stpierre.github.io/REST/service.py</a></p>
 
+          <!-- TODO: data relation diagram? -->
+
           <aside class="notes">
-            TODO: data relation diagram?
-
-            Tracks pets, veterinarians, and owners.
-
-            You can run this app locally if you want! Or just look at
-            the source code. It uses Flask -- plug!
-
-            This basic, one-file app tracks pets, their owners, and
-            their veterinarians. All subsequent examples will come
-            from this app.
+            <ul>
+              <li>Tracks pets, veterinarians, and owners</li>
+              <li>can run locally</li>
+            </ul>
           </aside>
         </section>
 
@@ -179,9 +172,7 @@ sandwiches.make_me_a_sandwich("ham")
           <h3>Verbs (or methods) and<br>resources (or endpoints)</h3>
 
           <aside class="notes">
-            REST consists two things: The resource (or endpoint) is
-            the thing you are operating on. And the verb is what you
-            are doing to it.
+            what you're doing, what you're doing it to
           </aside>
         </section>
 
@@ -195,8 +186,7 @@ sandwiches.make_me_a_sandwich("ham")
           <h3>List/read</h3>
 
           <aside class="notes">
-            Basically, read. Used for both collections and specific
-            records.
+            collections and records
           </aside>
         </section>
 
@@ -214,10 +204,11 @@ sandwiches.make_me_a_sandwich("ham")
                service-uri="/v1/owners/?limit=1&detail=1"></pre>
 
           <aside class="notes">
-            * parameters can be passed as query string
-            * two common ones limit the size of a list, and modify the
-            data from a GET
-            * this can make some operations much faster
+            <ul>
+              <li>pass params</li>
+              <li>limit and detail can make some operations much
+                faster</li>
+            </ul>
           </aside>
         </section>
 
@@ -231,15 +222,13 @@ sandwiches.make_me_a_sandwich("ham")
           </div>
 
           <pre class="wide">/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0</pre>
+          <!-- TODO: highlight bits of this -- maybe tooltips? -->
 
           <aside class="notes">
-            TODO: highlight bits of this
-            * version
-            * resource
-            * id (optional)
+            version, resource, id
 
-            * might have other stuff after the id -- actions,
-            subcollections, etc. (TODO: examples)
+            <p>might have other stuff after the id -- actions,
+            subcollections, etc.</p> <!-- TODO: examples -->
           </aside>
         </section>
 
@@ -250,10 +239,12 @@ sandwiches.make_me_a_sandwich("ham")
                service-uri="/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b"></pre>
 
           <aside class="notes">
-            * discoverability
-            * super freaking academic at times
-            * nice to have, but literally every single client is going
-            to use your docs anyway
+            <ul>
+              <li>discoverability</li>
+              <li>super academic at times</li>
+              <li>NTH, but literally every single client is going
+                to use your docs anyway</li>
+            </ul>
           </aside>
         </section>
 
@@ -267,8 +258,7 @@ sandwiches.make_me_a_sandwich("ham")
                service-uri="/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b"></pre>
 
           <aside class="notes">
-            Links can get way out of hand. Most of this is academic
-            nonsense anyway.
+            links can get out of hand
           </aside>
         </section>
 
@@ -287,8 +277,7 @@ sandwiches.make_me_a_sandwich("ham")
             <b>S</b>tate</p>
 
           <aside class="notes">
-            Basically, HATEOAS means "use lots of links." In theory,
-            blah blah blah.
+            Basically, "use lots of links."
           </aside>
         </section>
 
@@ -297,9 +286,9 @@ sandwiches.make_me_a_sandwich("ham")
           <h3>Create</h3>
 
           <aside class="notes">
-            Mostly create. Generally POST to a collection to create a
-            new record, but POST is also sometimes used for actions
-            that don't conform to basic CRUD ops.
+            Mostly create
+
+            <p>Also actions outside of CRUD</p>
           </aside>
         </section>
 
@@ -319,8 +308,9 @@ sandwiches.make_me_a_sandwich("ham")
                service-uri="/v1/owners/?limit=1"></pre>
 
           <aside class="notes">
-            * JSON
-            * objects not lists
+            JSON
+
+            <p>objects not lists</p>
           </aside>
         </section>
 
@@ -339,7 +329,7 @@ Call me Ishmael. Some years ago....
 
           <aside class="notes">
             more complex applications can use the Accept and
-            Content-Type header to get data in different formast
+            Content-Type header to get data in different formats
           </aside>
         </section>
 
@@ -351,7 +341,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
           </code></pre>
 
           <aside class="notes">
-            Useful for large result sets.
+            large result sets
           </aside>
         </section>
 
@@ -360,7 +350,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
           <h3>Create/update (idempotent)</h3>
 
           <aside class="notes">
-            Mostly modify.
+            Mostly modify
           </aside>
         </section>
 
@@ -375,20 +365,20 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
                data="{&quot;name&quot;:&quot;Jolanda Seaver&quot;,&quot;birthday&quot;:&quot;1996-08-29&quot;,&quot;shoe_size&quot;:9}"></pre>
 
           <aside class="notes">
-            * have to specify the entire record
+            have to specify the entire record
           </aside>
         </section>
 
         <section id="put-modify-bad-example">
+          <div class="tooltip-buttons">
+            <button class="worst-practice" data-toggle="tooltip"
+                    title="In general, if you omit a field that can legally be omitted, it should be removed from the record. In practice, not every API is that smart, and you should check the docs and/or TIAS."></button>
+          </div>
+
           <pre class="wide" id="put-modify-bad" verb="PUT"
                service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
                data="{&quot;shoe_size&quot;:9}"
                allow-error="true"></pre>
-
-          <aside class="notes">
-            * if you omit fields that can legally be omitted, they
-            will probably be removed from the record
-          </aside>
         </section>
 
         <section id="put-idempotent-show-vet">
@@ -441,7 +431,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
           <h3>One-to-one, one-to-many, many-to-many</h3>
 
           <aside class="notes">
-            Only two patterns
+            Only two patterns -- 1-to-1 and 1-to-N same
           </aside>
         </section>
 
@@ -528,10 +518,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         <section id="delete-404-example">
           <div class="tooltip-buttons">
             <button class="academic" data-toggle="tooltip"
-                    title="The
-                           <a href=&quot;http://www.restapitutorial.com/httpstatuscodes.html&quot;>full
-                             list of HTTP return codes</a>, including the
-                           ever-useful 418."></button>
+                    title="The <a href=&quot;http://www.restapitutorial.com/httpstatuscodes.html&quot;>full list of HTTP return codes</a>, including the ever-useful 418."></button>
           </div>
 
           <pre class="wide" id="delete-404" verb="DELETE"
@@ -599,8 +586,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
                authenticate="true"></pre>
 
           <aside class="notes">
-            * simple!
-            * slow?
+            simple! slow?
           </aside>
         </section>
 
@@ -613,8 +599,9 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
                headers="{&quot;X-Token&quot;:&quot;6158a4ff-8d50-47bd-8316-c0008b7cbc88&quot;}"></pre>
 
           <aside class="notes">
-            * more complicated
-            * not so great actually
+            more complicated
+
+            <p>not so great actually</p>
           </aside>
         </section>
 
@@ -628,7 +615,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
                cookies="use"></pre>
 
           <aside class="notes">
-            * self-documenting
+            self-documenting
           </aside>
         </section>
 
