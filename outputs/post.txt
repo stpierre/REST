@@ -1,28 +1,15 @@
 <code class="bash" data-trim>$ curl -X POST -d '{"name":"Jovka Garver","birthday":"1983-02-26"}' -H \
     'Content-Type: application/json' http://localhost:5000/v1/owners/
 {
-
-  "birthday": "1983-02-26", 
-
-  "id": "6c661c49-5d78-40fd-9277-f23271253d57", 
-
+  "birthday": "1983-02-26",
+  "id": "82f87ac5-8683-44ba-9904-89f4f40dbb7b",
   "links": [
-
     {
-
-      "href": "/v1/owners/6c661c49-5d78-40fd-9277-f23271253d57", 
-
+      "href": "/v1/owners/82f87ac5-8683-44ba-9904-89f4f40dbb7b",
       "rel": "self"
-
     }
-
-  ], 
-
-  "name": "Jovka Garver", 
-
+  ],
+  "name": "Jovka Garver",
   "pets": []
-
 }
-
-# HTTP code: 201
-</code>
+# HTTP code: 201</code>

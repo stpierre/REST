@@ -107,7 +107,7 @@ def main():
                     uri, verb=verb, data=data, headers=headers,
                     authenticate=authenticate, add_code=add_code,
                     cookie_file=cookie_file if cookies else None)
-                LOG.info("Emulating curl command: %s" % cmd)
+                LOG.info("Running curl command: %s" % cmd)
                 output.write("<code class=\"bash\" data-trim>")
                 output.write("$ %s\n" %
                              cgi.escape(get_printable_curl_command(cmd)))
@@ -120,7 +120,7 @@ def main():
                     return 1
 
                 stderr_data = "".join(proc.stderr.readlines())
-                stdout = "\n".join(proc.stdout.readlines())
+                stdout = "\n".join([l.rstrip() for l in proc.stdout.readlines()])
                 stdout_data = ""
                 if stdout.strip():
                     try:

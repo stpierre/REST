@@ -387,7 +387,7 @@ class CollectionMixin(BaseMixin):
             keys = keys[0:limit]
         retval = [self.marshal(k, links=detailed if detailed else "self",
                                detailed=detailed) for k in keys]
-        return flask.jsonify({self.collection_name: retval})
+        return {self.collection_name: retval}
 
     def post(self):
         args = {k: v for k, v in self.parser.parse_args(strict=True).items()
@@ -413,7 +413,7 @@ class RecordMixin(BaseMixin):
         self.ensure_exists(rid)
         detailed = (self.get_detailed_default or
                     bool(flask.request.args.get("detail", False)))
-        return self.marshal(rid, detailed=detailed)
+        return flask.jsonify(self.marshal(rid, detailed=detailed))
 
     def put(self, rid):
         self.ensure_exists(rid)
@@ -558,7 +558,8 @@ class OwnerPets(BaseResource):
 class OwnershipRecord(BaseResource):
     def get(self, owner_id, pet_id):
         self.ensure_ownership_exists(owner_id, pet_id)
-        return self.marshal_ownership(owner_id, pet_id, detailed=True)
+        return flask.jsonify(self.marshal_ownership(owner_id, pet_id,
+                                                    detailed=True))
 
     def put(self, owner_id, pet_id):
         self.ensure_owner_exists(owner_id)
@@ -610,13 +611,6 @@ class Pet(PetsBase, RecordMixin):
     patch_v2_parser.add_argument("veterinarian")
     patch_v2_parser.add_argument("owners", action="append")
 
-    def get(self, rid):
-        retval = super(Pet, self).get(rid)
-        retval["veterinarian"] = DATA["vet assignments"].get(rid)
-        retval["owners"] = [r["owner"] for r in DATA["ownership"]
-                            if r["pet"] == rid]
-        return retval
-
     def patch(self, rid):
         if flask.g.request_version == "v1":
             return super(Pet, self).patch(rid)
@@ -651,7 +645,7 @@ class Pet(PetsBase, RecordMixin):
                 DATA["vet assignments"][rid] = vet_id
 
             DATA[self.datasource][rid].update(args)
-            return self.get(rid)
+            return flask.jsonify(self.marshal(rid, detailed=True))
 
     def delete(self, rid):
         if flask.g.request_version == "v2":
@@ -861,7 +855,8 @@ class AssignmentRecord(BaseResource):
     def get(self, pet_id, vet_id):
         self.ensure_vet_assignment_exists(pet_id, vet_id)
         detailed = bool(flask.request.args.get("detail", False))
-        return self.marshal_vet_assignment(vet_id, pet_id, detailed=detailed)
+        return flask.jsonify(self.marshal_vet_assignment(vet_id, pet_id,
+                                                         detailed=detailed))
 
     def put(self, pet_id, vet_id):
         self.ensure_pet_exists(pet_id)

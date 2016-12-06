@@ -2,7 +2,27 @@
     '{"veterinarian":"3cfbb699-d2f2-45cd-b932-be5171887262","owners":["ee5479d6-7070-4109-bfb2-d44e3c42782b"]}' \
     -H 'Content-Type: application/json' \
     http://localhost:5000/v2/pets/bf61616c-010e-48f2-8173-78b330804cd6
-{"owners": ["ee5479d6-7070-4109-bfb2-d44e3c42782b"], "name": "Kisses", "links": [{"href": "/v2/pets/bf61616c-010e-48f2-8173-78b330804cd6", "rel": "self"}, {"href": "/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b", "rel": "owner"}, {"href": "/v2/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262", "rel": "veterinarian"}], "species": "Hissing Cockroach", "veterinarian": "3cfbb699-d2f2-45cd-b932-be5171887262", "id": "bf61616c-010e-48f2-8173-78b330804cd6"}
-
-# HTTP code: 200
-</code>
+{
+  "id": "bf61616c-010e-48f2-8173-78b330804cd6",
+  "links": [
+    {
+      "href": "/v2/pets/bf61616c-010e-48f2-8173-78b330804cd6",
+      "rel": "self"
+    },
+    {
+      "href": "/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b",
+      "rel": "owner"
+    },
+    {
+      "href": "/v2/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262",
+      "rel": "veterinarian"
+    }
+  ],
+  "name": "Kisses",
+  "owners": [
+    "ee5479d6-7070-4109-bfb2-d44e3c42782b"
+  ],
+  "species": "Hissing Cockroach",
+  "veterinarian": "3cfbb699-d2f2-45cd-b932-be5171887262"
+}
+# HTTP code: 200</code>
