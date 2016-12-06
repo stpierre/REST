@@ -36,10 +36,10 @@
           <h2>Writing and consuming REST services</h2>
 
           <p><small>Chris St. Pierre
-              - <a href="http://twitter.com/chris_st_pierre">@chris_st_pierre</a></small></p>
+              - <a target="_blank" href="http://twitter.com/chris_st_pierre">@chris_st_pierre</a></small></p>
 
           <h3>Follow along at
-              <a href="https://stpierre.github.io/REST/">stpierre.github.io/REST/</a></h3>
+              <a target="_blank" href="https://stpierre.github.io/REST/">stpierre.github.io/REST/</a></h3>
         </section>
 
         <section id="what-is-rest">
@@ -136,7 +136,7 @@ sandwiches.make_me_a_sandwich("ham")
         <section id="soap-and-xml-rpc">
           <div class="tooltip-buttons">
             <button class="academic" data-toggle="tooltip"
-                    title="<a href='https://github.com/stpierre/REST/blob/gh-pages/xml-rpc-drawbacks.rst'>Some problems with XML-RPC</a>"></button>
+                    title="<a target='_blank' href='https://github.com/stpierre/REST/blob/gh-pages/xml-rpc-drawbacks.rst'>Some problems with XML-RPC</a>"></button>
           </div>
 
           <h2>What about SOAP and XML-RPC?</h2>
@@ -151,7 +151,7 @@ sandwiches.make_me_a_sandwich("ham")
         </section>
 
         <section id="introducing-the-app">
-          <p><a href="https://github.com/stpierre/REST/blob/gh-pages/service.py">github.com/stpierre/REST/blob/gh-pages/service.py</a></p>
+          <p><a target="_blank" href="https://github.com/stpierre/REST/blob/gh-pages/service.py">github.com/stpierre/REST/blob/gh-pages/service.py</a></p>
 
           <!-- TODO: data relation diagram? -->
 
@@ -265,7 +265,7 @@ sandwiches.make_me_a_sandwich("ham")
         <section id="HATEOAS">
           <div class="tooltip-buttons">
             <button class="holy-war" data-toggle="tooltip"
-                  title="People get <i>really</i> worked up over HATEOAS. Jeff Knupp even <a href='https://jeffknupp.com/blog/2014/06/03/why-i-hate-hateoas/'>specifically calls out Fielding for his over-the-top purism</a>. I tend to side with Knupp."></button>
+                  title="People get <i>really</i> worked up over HATEOAS. Jeff Knupp even <a target='_blank' href='https://jeffknupp.com/blog/2014/06/03/why-i-hate-hateoas/'>specifically calls out Fielding for his over-the-top purism</a>. I tend to side with Knupp."></button>
           </div>
 
           <p class="acronym"><b>H</b>ypertext<br/>
@@ -301,7 +301,7 @@ sandwiches.make_me_a_sandwich("ham")
         <section id="return-values">
           <div class="tooltip-buttons">
             <button class="worst-practice" data-toggle="tooltip"
-                    title="Some REST APIs, like <a href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#output'>Gerrit's</a>, as well as many of Google's and Facebook's APIs, use a &quot;magic prefix&quot; to prevent XSS instead of just returning objects. This is super annoying, since you can't just deserialize the response like most REST libraries want to, but it can help prevent some obscure attacks."></button>
+                    title="Some REST APIs, like <a target='_blank' href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#output'>Gerrit's</a>, as well as many of Google's and Facebook's APIs, use a &quot;magic prefix&quot; to prevent XSS instead of just returning objects. This is super annoying, since you can't just deserialize the response like most REST libraries want to, but it can help prevent some obscure attacks."></button>
           </div>
 
           <pre class="wide" id="get-collection-retval"
@@ -404,7 +404,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         <section id="put-demonstrate-idempotency">
           <div class="tooltip-buttons">
             <button class="worst-practice" data-toggle="tooltip"
-                    title="<b>Lots</b> and lots of APIs don't implement creation via PUT. Often this is for good reasons -- like IDs that must be auto-generated -- but sometimes it's just laziness.<br/><br/><a href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#preconditions'>Gerrit's REST API</a> implements PUT to only be idempotent if you specifically ask it to be, so clearly they know how to do the right thing but decided not to."></button>
+                    title="<b>Lots</b> and lots of APIs don't implement creation via PUT. Often this is for good reasons -- like IDs that must be auto-generated -- but sometimes it's just laziness.<br/><br/><a target='_blank' href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#preconditions'>Gerrit's REST API</a> implements PUT to only be idempotent if you specifically ask it to be, so clearly they know how to do the right thing but decided not to."></button>
           </div>
 
           <pre class="wide" id="put-demonstrate-idempotency-output" verb="PUT"
@@ -518,7 +518,7 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         <section id="delete-404-example">
           <div class="tooltip-buttons">
             <button class="academic" data-toggle="tooltip"
-                    title="The <a href=&quot;http://www.restapitutorial.com/httpstatuscodes.html&quot;>full list of HTTP return codes</a>, including the ever-useful 418."></button>
+                    title="The <a target='_blank' href=&quot;http://www.restapitutorial.com/httpstatuscodes.html&quot;>full list of HTTP return codes</a>, including the ever-useful 418."></button>
           </div>
 
           <pre class="wide" id="delete-404" verb="DELETE"
