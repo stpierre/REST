@@ -4,7 +4,7 @@ CWD := $(shell pwd)
 
 all:	test outputs run
 
-run:	test
+run:
 	python -mSimpleHTTPServer
 
 test:	venv
@@ -20,7 +20,7 @@ venv/bin/activate: requirements.txt
 service:	venv
 	. venv/bin/activate; FLASK_APP=service.py flask run
 
-start-service:
+start-service:	test
 	. venv/bin/activate; FLASK_APP=service.py flask run & echo $$! > service.pid; while ! echo | nc localhost 5000; do sleep 1; done
 
 stop-service:
