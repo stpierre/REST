@@ -18,12 +18,6 @@ RUN git clone https://github.com/hakimel/reveal.js.git && \
 WORKDIR /opt/reveal.js
 RUN npm install -g grunt-cli && npm install
 RUN sed -i "s/port: port/port: port,\n\t\t\t\t\thostname: \'\'/g" Gruntfile.js
-RUN wget -O /opt/reveal.js/js/jquery.min.js \
-    https://code.jquery.com/jquery-3.1.0.min.js
-RUN wget -O /opt/reveal.js/css/bootstrap.min.css \
-    https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
-RUN wget -O /opt/reveal.js/js/bootstrap.min.js \
-    https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js
 
 VOLUME /opt/reveal.js/local
 VOLUME /opt/reveal.js/index.html
