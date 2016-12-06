@@ -1,25 +1,11 @@
 CWD := $(shell pwd)
 
-.PHONY : container run stop restart venv test service start-service stop-service restart-service outputs clean
+.PHONY : run venv test service start-service stop-service restart-service outputs clean
 
 all:	test outputs run
 
-container:	Dockerfile
-	sudo docker build --rm -t stpierre/rest $(CWD)
-
-run:	container
-	sudo docker run -d -p 8000:8000 \
-	    -v $(CWD)/local:/opt/reveal.js/local \
-	    -v $(CWD)/index.html:/opt/reveal.js/index.html \
-	    -v $(CWD)/images:/opt/reveal.js/images \
-	    -v $(CWD)/outputs:/opt/reveal.js/outputs \
-	    --name REST stpierre/rest
-
-stop:
-	sudo docker stop REST
-	sudo docker rm REST
-
-restart:	stop run
+run:	test
+	python -mSimpleHTTPServer
 
 test:	venv
 	. venv/bin/activate
