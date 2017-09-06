@@ -54,12 +54,31 @@ def get_printable_curl_command(command):
             pass
         else:
             parts.append(shlex_quote(part))
-    lines = textwrap.wrap(
-        " ".join(parts),
-        subsequent_indent="    ",
-        break_long_words=False,
-        break_on_hyphens=False)
-    return "\n".join(["%s \\" % l for l in lines[0:-1]] + [lines[-1]])
+    # We can't use textwrap to do this because textwrap happily splits
+    # quoted strings, which is broken bash. we also want to try to
+    # keep options and their arguments together.
+    lines = []
+    line_parts = []
+    indent = ""
+    while parts:
+        if len(line_parts) == 0:
+            line_parts.append(str(parts.pop(0)))
+            if line_parts[-1].startswith("-"):
+                line_parts.append(parts.pop(0))
+        elif ((len("\n".join(line_parts + [parts[0], "\\", indent])) > 80) or
+              (parts[0].startswith("-") and
+               len("\n".join(line_parts + parts[0:2] + ["\\", indent])) > 80)):
+            line_parts = [indent] + line_parts + ["\\"]
+            lines.append(" ".join(line_parts))
+            line_parts = []
+            indent = "   "
+        else:
+            line_parts.append(str(parts.pop(0)))
+            if line_parts[-1].startswith("-"):
+                line_parts.append(parts.pop(0))
+    lines.append(" ".join([indent] + line_parts))
+
+    return "\n".join(lines)
 
 
 def get_http_command(uri, verb="GET"):

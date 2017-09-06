@@ -1,4 +1,4 @@
-<code class="bash" data-trim>$ curl http://localhost:5000/v1/owners/
+<code class="bash" data-trim>$  curl http://localhost:5000/v1/owners/
 {
   "owners": [
     {

@@ -1,5 +1,4 @@
-<code class="bash" data-trim>$ curl \
-    http://localhost:5000/v1/pets/bf61616c-010e-48f2-8173-78b330804cd6
+<code class="bash" data-trim>$  curl http://localhost:5000/v1/pets/bf61616c-010e-48f2-8173-78b330804cd6
 {
   "owners": [], 
   "name": "Kisses", 
@@ -9,7 +8,7 @@
       "rel": "self"
     }
   ], 
-  "species": "Hissing Cockroach", 
+  "id": "bf61616c-010e-48f2-8173-78b330804cd6", 
   "veterinarian": null, 
-  "id": "bf61616c-010e-48f2-8173-78b330804cd6"
+  "species": "Hissing Cockroach"
 }</code>

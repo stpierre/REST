@@ -1,5 +1,4 @@
-<code class="bash" data-trim>$ curl -X PATCH -d '{"shoe_size":9.5}' -H 'Content-Type: \
-    application/json' \
+<code class="bash" data-trim>$  curl -X PATCH -d '{"shoe_size":9.5}' -H 'Content-Type: application/json' \
     http://localhost:5000/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
 {
   "birthday": "1996-08-29",

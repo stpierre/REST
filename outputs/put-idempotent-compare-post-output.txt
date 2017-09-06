@@ -1,5 +1,5 @@
-<code class="bash" data-trim>$ curl -X POST -d '{"pet_id":"d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"}' -H \
-    'Content-Type: application/json' \
+<code class="bash" data-trim>$  curl -X POST -d '{"pet_id":"d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"}' \
+    -H 'Content-Type: application/json' \
     http://localhost:5000/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/
 {"message": "Pet d25dcdd0-28f4-4fd3-9e5f-da1d9d224940 is already assigned to veterinarian 3cfbb699-d2f2-45cd-b932-be5171887262"}
 # HTTP code: 409</code>

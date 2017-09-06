@@ -1,5 +1,5 @@
-<code class="bash" data-trim>$ curl -X PATCH -d \
-    '{"veterinarian":"3cfbb699-d2f2-45cd-b932-be5171887262","owners":["ee5479d6-7070-4109-bfb2-d44e3c42782b"]}' \
+<code class="bash" data-trim>$  curl -X PATCH \
+    -d '{"veterinarian":"3cfbb699-d2f2-45cd-b932-be5171887262","owners":["ee5479d6-7070-4109-bfb2-d44e3c42782b"]}' \
     -H 'Content-Type: application/json' \
     http://localhost:5000/v2/pets/bf61616c-010e-48f2-8173-78b330804cd6
 {

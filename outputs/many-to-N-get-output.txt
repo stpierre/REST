@@ -1,5 +1,4 @@
-<code class="bash" data-trim>$ curl \
-    http://localhost:5000/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec
+<code class="bash" data-trim>$  curl http://localhost:5000/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec
 {
   "owners": [
     "35a85559-dc03-4aa2-85d2-947e17e310e5", 

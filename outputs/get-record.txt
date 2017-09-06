@@ -1,7 +1,9 @@
-<code class="bash" data-trim>$ curl \
-    http://localhost:5000/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0
+<code class="bash" data-trim>$  curl http://localhost:5000/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0
 {
-  "name": "Goran Shain", 
+  "pets": [
+    "a8533344-6371-4982-a86b-722331839514", 
+    "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
+  ], 
   "links": [
     {
       "href": "/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0", 
@@ -17,10 +19,7 @@
     }
   ], 
   "birthday": "1981-10-27", 
-  "pets": [
-    "a8533344-6371-4982-a86b-722331839514", 
-    "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
-  ], 
   "shoe_size": 10.5, 
-  "id": "511363b2-8693-4b30-ae4c-09964a4cebe0"
+  "id": "511363b2-8693-4b30-ae4c-09964a4cebe0", 
+  "name": "Goran Shain"
 }</code>

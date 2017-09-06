@@ -1,7 +1,7 @@
-<code class="bash" data-trim>$ curl \
+<code class="bash" data-trim>$  curl \
     http://localhost:5000/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262
 {
-  "name": "Seong-Min Park", 
+  "id": "3cfbb699-d2f2-45cd-b932-be5171887262", 
   "links": [
     {
       "href": "/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262", 
@@ -12,5 +12,5 @@
       "rel": "patient"
     }
   ], 
-  "id": "3cfbb699-d2f2-45cd-b932-be5171887262"
+  "name": "Seong-Min Park"
 }</code>

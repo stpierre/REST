@@ -1,7 +1,9 @@
-<code class="bash" data-trim>$ curl \
-    http://localhost:5000/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b
+<code class="bash" data-trim>$  curl http://localhost:5000/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b
 {
-  "name": "Remus Bergfalk", 
+  "pets": [
+    "00182d56-9981-402b-821e-7b1c2906533c", 
+    "72f12e94-33ca-4537-9897-205ffe42350e"
+  ], 
   "links": [
     {
       "href": "/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b", 
@@ -17,10 +19,7 @@
     }
   ], 
   "birthday": "1977-05-08", 
-  "pets": [
-    "00182d56-9981-402b-821e-7b1c2906533c", 
-    "72f12e94-33ca-4537-9897-205ffe42350e"
-  ], 
   "shoe_size": 9.5, 
-  "id": "ee5479d6-7070-4109-bfb2-d44e3c42782b"
+  "id": "ee5479d6-7070-4109-bfb2-d44e3c42782b", 
+  "name": "Remus Bergfalk"
 }</code>

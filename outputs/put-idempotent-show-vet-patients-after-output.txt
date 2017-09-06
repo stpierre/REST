@@ -1,4 +1,4 @@
-<code class="bash" data-trim>$ curl \
+<code class="bash" data-trim>$  curl \
     http://localhost:5000/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/
 {
   "patients": [

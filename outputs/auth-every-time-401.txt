@@ -1,4 +1,4 @@
-<code class="bash" data-trim>$ curl -X DELETE \
+<code class="bash" data-trim>$  curl -X DELETE \
     http://localhost:5000/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d
 {"headers": {"WWW-Authenticate": "Basic realm=\"Login Required\""}, "message": "Request requires authentication"}
 # HTTP code: 401</code>

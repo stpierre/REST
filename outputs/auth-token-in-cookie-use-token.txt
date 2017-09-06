@@ -1,3 +1,3 @@
-<code class="bash" data-trim>$ curl -X DELETE -b cookies -c cookies \
+<code class="bash" data-trim>$  curl -X DELETE -b cookies -c cookies \
     http://localhost:5000/v2/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262
 # HTTP code: 204</code>
