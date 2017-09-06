@@ -19,8 +19,13 @@ import service
 LOG = logging.getLogger("output_preprocessor.py")
 
 
-def get_curl_command(uri, verb="GET", data=None, headers=None, add_code=False,
-                     authenticate=False, cookie_file=None):
+def get_curl_command(uri,
+                     verb="GET",
+                     data=None,
+                     headers=None,
+                     add_code=False,
+                     authenticate=False,
+                     cookie_file=None):
     retval = ["curl", "-4", "-s"]
     if add_code:
         retval.extend(["-w", "# HTTP code: %{http_code}\\n"])
@@ -49,8 +54,11 @@ def get_printable_curl_command(command):
             pass
         else:
             parts.append(shlex_quote(part))
-    lines = textwrap.wrap(" ".join(parts), subsequent_indent="    ",
-                          break_long_words=False, break_on_hyphens=False)
+    lines = textwrap.wrap(
+        " ".join(parts),
+        subsequent_indent="    ",
+        break_long_words=False,
+        break_on_hyphens=False)
     return "\n".join(["%s \\" % l for l in lines[0:-1]] + [lines[-1]])
 
 
@@ -85,16 +93,16 @@ def main():
         data = tag.get("data")
         style = tag.get("command-style", "curl")
         allow_error = str2bool(tag.get("allow-error", "false"))
-        add_code = str2bool(tag.get("add-code",
-                                    str(allow_error or verb != "GET")))
+        add_code = str2bool(
+            tag.get("add-code", str(allow_error or verb != "GET")))
         authenticate = str2bool(tag.get("authenticate", "false"))
         headers = json.loads(tag.get("headers", '{}'))
         cookies = tag.get("cookies")
         cookie_file = os.path.join(options.output,
                                    "%s.cookies" % tag.parent["id"])
 
-        LOG.info("Creating output for %s: %s %s" %
-                 (tag["id"], verb, tag["service-uri"]))
+        LOG.info("Creating output for %s: %s %s" % (tag["id"], verb,
+                                                    tag["service-uri"]))
 
         outfile = os.path.join(outdir, "%s.txt" % tag["id"])
         if data:
@@ -104,23 +112,28 @@ def main():
             output_data = None
             if style == "curl":
                 cmd = get_curl_command(
-                    uri, verb=verb, data=data, headers=headers,
-                    authenticate=authenticate, add_code=add_code,
+                    uri,
+                    verb=verb,
+                    data=data,
+                    headers=headers,
+                    authenticate=authenticate,
+                    add_code=add_code,
                     cookie_file=cookie_file if cookies else None)
                 LOG.info("Running curl command: %s" % cmd)
                 output.write("<code class=\"bash\" data-trim>")
-                output.write("$ %s\n" %
-                             cgi.escape(get_printable_curl_command(cmd)))
+                output.write(
+                    "$ %s\n" % cgi.escape(get_printable_curl_command(cmd)))
 
-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE)
+                proc = subprocess.Popen(
+                    cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 if proc.wait() != 0 and not allow_error:
                     LOG.error("Unexpected error: %s" %
                               "\n".join(proc.stderr.readlines()))
                     return 1
 
                 stderr_data = "".join(proc.stderr.readlines())
-                stdout = "\n".join([l.rstrip() for l in proc.stdout.readlines()])
+                stdout = "\n".join(
+                    [l.rstrip() for l in proc.stdout.readlines()])
                 stdout_data = ""
                 if stdout.strip():
                     try:
@@ -157,6 +170,7 @@ def main():
                         output.write(line)
             output.write("</code>")
         LOG.info("Wrote output to %s" % outfile)
+
 
 if __name__ == "__main__":
     sys.exit(main())

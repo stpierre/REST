@@ -1,6 +1,6 @@
-CWD := $(shell pwd)
+SHELL = /bin/bash
 
-.PHONY : run venv test service start-service stop-service restart-service outputs clean
+.PHONY : run venv test service start-service stop-service restart-service outputs format clean
 
 all:	test outputs run
 
@@ -29,7 +29,10 @@ stop-service:
 restart-service:	stop-service start-service
 
 outputs:	venv start-service
-	./output_preprocessor.py --output outputs index.html; $(MAKE) stop-service; rm -rf outputs/*.cookies
+	. venv/bin/activate; ./output_preprocessor.py --output outputs index.html; $(MAKE) stop-service; rm -rf outputs/*.cookies
+
+format: venv
+	. venv/bin/activate; yapf -i -r *.py
 
 clean:
 	rm -rf venv

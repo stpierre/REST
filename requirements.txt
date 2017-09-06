@@ -4,3 +4,4 @@ beautifulsoup4==4.6.0
 requests==2.18.4
 six==1.10.0
 ddt==1.1.1
+yapf==0.17.0
