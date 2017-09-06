@@ -477,11 +477,15 @@ class RecordMixin(BaseMixin):
     def ensure_exists(self, rid):
         self._ensure_record_exists(self.datasource, self.record_name, rid)
 
-    def get(self, rid):
+    def get(self, rid, raw=False):
         self.ensure_exists(rid)
         detailed = (self.get_detailed_default
                     or bool(flask.request.args.get("detail", False)))
-        return flask.jsonify(self.marshal(rid, detailed=detailed))
+        data = self.marshal(rid, detailed=detailed)
+        if raw:
+            return data
+        else:
+            return flask.jsonify(data)
 
     def put(self, rid):
         self.ensure_exists(rid)
@@ -540,9 +544,9 @@ class Owner(OwnersBase, RecordMixin):
     """Work with individual owners."""
 
     def get(self, rid):
-        owner = super(Owner, self).get(rid)
+        owner = super(Owner, self).get(rid, raw=True)
         if flask.g.request_version == "v1":
-            return owner
+            return flask.jsonify(owner)
         else:
             for link in owner["links"]:
                 link["method"] = "GET"
@@ -555,7 +559,7 @@ class Owner(OwnersBase, RecordMixin):
                 "href": self.get_owner_url(rid),
                 "method": "DELETE"
             }])
-            return {
+            return flask.jsonify({
                 "owner":
                 owner,
                 "links": [{
@@ -573,7 +577,7 @@ class Owner(OwnersBase, RecordMixin):
                     "method":
                     "POST"
                 }]
-            }
+            })
 
     def delete(self, rid):
         if flask.g.request_version == "v2":
