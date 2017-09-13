@@ -85,7 +85,7 @@ sandwiches.make_me_a_sandwich("ham")
 
         <section id="rest-api">
           <pre class="wide"><code class="bash" data-trim>
-              curl -X POST -d '{"type": "ham"}' \
+curl -X POST -d '{"type": "ham"}' \
     https://sandwiches.example.com/sandwiches
           </code></pre>
 
@@ -155,20 +155,6 @@ sandwiches.make_me_a_sandwich("ham")
             </ul>
           </aside>
         </section>
-
-        <section id="introducing-the-app">
-          <p><a target="_blank" href="https://github.com/stpierre/REST/blob/gh-pages/service.py">github.com/stpierre/REST/blob/gh-pages/service.py</a></p>
-
-          <!-- TODO: data relation diagram? -->
-
-          <aside class="notes">
-            <ul>
-              <li>Tracks pets, veterinarians, and owners</li>
-              <li>can run locally</li>
-            </ul>
-          </aside>
-        </section>
-
         <section id="verbs-and-resources">
           <div class="tooltip-buttons">
             <button class="academic" data-toggle="tooltip"
@@ -183,8 +169,52 @@ sandwiches.make_me_a_sandwich("ham")
         </section>
 
         <section id="verbs-and-endpoints-example">
-          <pre class="wide" id="get-endpoints"
-               service-uri="/v1/pets/" command-style="http"></pre>
+          <pre class="wide"><code class="http" data-trim>
+              GET http://example.com/v1/pets/ HTTP/1.0
+            </code><code class="json" data-trim>
+{
+  "pets": [
+    {
+      "id": "a8533344-6371-4982-a86b-722331839514",
+      "links": [
+        {
+          "href": "/v1/pets/a8533344-6371-4982-a86b-722331839514",
+          "rel": "self"
+        }
+      ]
+    },
+    {
+      "id": "00182d56-9981-402b-821e-7b1c2906533c",
+      "links": [
+        {
+          "href": "/v1/pets/00182d56-9981-402b-821e-7b1c2906533c",
+          "rel": "self"
+        }
+      ]
+    },
+    {
+      "id": "18e1588a-090e-4ace-94c2-f289617de0cb",
+      "links": [...]
+    },
+    {
+      "id": "4dc4d7b0-a386-4919-9878-47d4eb8f49ec",
+      "links": [...]
+    },
+    {
+      "id": "bf61616c-010e-48f2-8173-78b330804cd6",
+      "links": [...]
+    },
+    {
+      "id": "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940",
+      "links": [...]
+    },
+    {
+      "id": "72f12e94-33ca-4537-9897-205ffe42350e",
+      "links": [...]
+    }
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="verbs-get">
@@ -197,17 +227,101 @@ sandwiches.make_me_a_sandwich("ham")
         </section>
 
         <section id="get-collection-example">
-          <pre class="wide" id="get-collection" service-uri="/v1/owners/"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v1/owners/
+            </code><code class="json" data-trim>
+{
+  "owners": [
+    {
+      "id": "511363b2-8693-4b30-ae4c-09964a4cebe0",
+      "links": [
+        {
+          "href": "/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0",
+          "rel": "self"
+        }
+      ]
+    },
+    {
+      "id": "ee5479d6-7070-4109-bfb2-d44e3c42782b",
+      "links": [...]
+    },
+    {
+      "id": "35a85559-dc03-4aa2-85d2-947e17e310e5",
+      "links": [...]
+    },
+    {
+      "id": "5e174bc4-4135-4e7b-b957-9705bacc903d",
+      "links": [...]
+    }
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="get-resource-example">
-          <pre class="wide" id="get-record"
-               service-uri="/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0
+            </code><code class="json" data-trim>
+{
+  "id": "511363b2-8693-4b30-ae4c-09964a4cebe0",
+  "name": "Goran Shain",
+  "birthday": "1981-10-27",
+  "shoe_size": 10.5,
+  "pets": [
+    "a8533344-6371-4982-a86b-722331839514",
+    "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
+  ],
+  "links": [
+    {
+      "href": "/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0",
+      "rel": "self"
+    },
+    {
+      "href": "/v1/pets/a8533344-6371-4982-a86b-722331839514",
+      "rel": "pet"
+    },
+    {
+      "href": "/v1/pets/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940",
+      "rel": "pet"
+    }
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="get-collection-querystring-example">
-          <pre class="wide" id="get-collection-querystring"
-               service-uri="/v1/owners/?limit=1&detail=1"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v1/owners/\?limit=1\&amp;detail=1
+            </code><code class="json" data-trim>
+{
+  "owners": [
+    {
+      "id": "511363b2-8693-4b30-ae4c-09964a4cebe0",
+      "name": "Goran Shain",
+      "birthday": "1981-10-27",
+      "shoe_size": 10.5,
+      "pets": [
+        "a8533344-6371-4982-a86b-722331839514",
+        "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
+      ],
+      "links": [
+        {
+          "href": "/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0",
+          "rel": "self"
+        },
+        {
+          "href": "/v1/pets/a8533344-6371-4982-a86b-722331839514",
+          "rel": "pet"
+        },
+        {
+          "href": "/v1/pets/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940",
+          "rel": "pet"
+        }
+      ]
+    }
+  ]
+}
+          </code></pre>
 
           <aside class="notes">
             <ul>
@@ -246,7 +360,55 @@ sandwiches.make_me_a_sandwich("ham")
         </section>
 
         <section id="links">
-          <pre class="wide" id="links-list" service-uri="/v1/owners/"></pre>
+          <div class="tooltip-buttons">
+            <button class="holy-war" data-toggle="tooltip"
+                  title="Detractors point out that including all of these links can substantially increase response size, and they're right. I've included them because it seems to be the general consensus Right Thing™ to do, but it doesn't always make sense."></button>
+          </div>
+
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v1/owners/
+            </code><code class="json" data-trim>
+{
+  "owners": [
+    {
+      "id": "511363b2-8693-4b30-ae4c-09964a4cebe0",
+      "links": [
+        {
+          "href": "/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0",
+          "rel": "self"
+        }
+      ]
+    },
+    {
+      "id": "ee5479d6-7070-4109-bfb2-d44e3c42782b",
+      "links": [
+        {
+          "href": "/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b",
+          "rel": "self"
+        }
+      ]
+    },
+    {
+      "id": "35a85559-dc03-4aa2-85d2-947e17e310e5",
+      "links": [
+        {
+          "href": "/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5",
+          "rel": "self"
+        }
+      ]
+    },
+    {
+      "id": "5e174bc4-4135-4e7b-b957-9705bacc903d",
+      "links": [
+        {
+          "href": "/v1/owners/5e174bc4-4135-4e7b-b957-9705bacc903d",
+          "rel": "self"
+        }
+      ]
+    }
+  ]
+}
+          </code></pre>
 
           <aside class="notes">
             <ul>
@@ -258,9 +420,61 @@ sandwiches.make_me_a_sandwich("ham")
           </aside>
         </section>
 
+        <section id="without-links">
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v1/owners/
+            </code><code class="json" data-trim>
+{
+  "owners": [
+    "511363b2-8693-4b30-ae4c-09964a4cebe0",
+    "ee5479d6-7070-4109-bfb2-d44e3c42782b",
+    "35a85559-dc03-4aa2-85d2-947e17e310e5",
+    "5e174bc4-4135-4e7b-b957-9705bacc903d"
+  ]
+}
+          </code></pre>
+
+          <aside class="notes">
+            <p>holy smaller, batman</p>
+            <p>three times smaller</p>
+          </aside>
+        </section>
+
         <section id="links2">
-          <pre class="wide" id="links-detail"
-               service-uri="/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b"></pre>
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                    title="<a target='_blank'
+                    href='https://tools.ietf.org/html/rfc5988'>RFC5988</a> even proposes a Link header, in part to clean up some of this mess. I've never seen an application that relies on it or even mentions it in documentation as an option, which is probably an indicator of how valuable some of this linking stuff is."></button>
+          </div>
+
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b
+            </code><code class="json" data-trim>
+{
+  "id": "ee5479d6-7070-4109-bfb2-d44e3c42782b",
+  "name": "Remus Bergfalk",
+  "birthday": "1977-05-08",
+  "shoe_size": 9.5,
+  "pets": [
+    "00182d56-9981-402b-821e-7b1c2906533c",
+    "72f12e94-33ca-4537-9897-205ffe42350e"
+  ],
+  "links": [
+    {
+      "href": "/v1/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b",
+      "rel": "self"
+    },
+    {
+      "href": "/v1/pets/00182d56-9981-402b-821e-7b1c2906533c",
+      "rel": "pet"
+    },
+    {
+      "href": "/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e",
+      "rel": "pet"
+    }
+  ]
+}
+            </code></pre>
         </section>
 
         <section id="yo-dawg-we-heard-you-liked-links">
@@ -269,8 +483,61 @@ sandwiches.make_me_a_sandwich("ham")
                     title="In theory, the only documentation the end user should ever need is the base entry point into your application. In practice, every application needs lots of documentation, and REST purists can just get over their irrational fear of coupling. Use a good automatic docs generator."></button>
           </div>
 
-          <pre class="wide" id="omg-links"
-               service-uri="/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b
+            </code><code class="json" data-trim>
+{
+  "owner": {
+    "id": "ee5479d6-7070-4109-bfb2-d44e3c42782b",
+    "name": "Remus Bergfalk",
+    "birthday": "1977-05-08",
+    "shoe_size": 9.5,
+    "pets": [
+      "00182d56-9981-402b-821e-7b1c2906533c",
+      "72f12e94-33ca-4537-9897-205ffe42350e"
+    ],
+    "links": [
+      {
+        "href": "/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b",
+        "method": "GET",
+        "rel": "self"
+      },
+      {
+        "href": "/v2/pets/00182d56-9981-402b-821e-7b1c2906533c",
+        "method": "GET",
+        "rel": "pet"
+      },
+      {
+        "href": "/v2/pets/72f12e94-33ca-4537-9897-205ffe42350e",
+        "method": "GET",
+        "rel": "pet"
+      },
+      {
+        "href": "/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b",
+        "method": "PUT",
+        "rel": "edit"
+      },
+      {
+        "href": "/v2/owners/ee5479d6-7070-4109-bfb2-d44e3c42782b",
+        "method": "DELETE",
+        "rel": "delete"
+      }
+    ],
+  },
+  "links": [
+    {
+      "href": "/v2/owners/",
+      "method": "GET",
+      "rel": "list"
+    },
+    {
+      "href": "/v2/owners/",
+      "method": "POST",
+      "rel": "create"
+    }
+  ]
+}
+          </code></pre>
 
           <aside class="notes">
             links can get out of hand
@@ -292,9 +559,35 @@ sandwiches.make_me_a_sandwich("ham")
             <b>S</b>tate</p>
 
           <aside class="notes">
-            Basically, "use lots of links."
+            <p>Basically, "use lots of links."</p>
+
+            <p>important to understand, but left out in remainder of preso</p>
           </aside>
         </section>
+
+        <section id="verbs-head">
+          <h2>HEAD</h2>
+          <h3>Check existence</h3>
+        </section>
+
+        <section id="head-example">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X HEAD \
+   http://example.com/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 200
+          </code></pre>
+        </section>
+
+        <section id="head-404-example">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X HEAD \
+   http://example.com/v1/owners/totally-bogus-owner-uuid
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 404
+          </code></pre>
+        </section>
+
 
         <section id="verbs-post">
           <h2>POST</h2>
@@ -308,9 +601,19 @@ sandwiches.make_me_a_sandwich("ham")
         </section>
 
         <section id="post-example">
-          <pre class="wide" id="post" verb="POST"
-               service-uri="/v1/owners/"
-               data="{&quot;name&quot;:&quot;Jovka Garver&quot;,&quot;birthday&quot;:&quot;1983-02-26&quot;}"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X POST -d '{"name":"Jovka Garver","birthday":"1983-02-26"}' \
+    -H 'Content-Type: application/json' http://example.com/v1/owners/
+            </code><code class="json" data-trim>
+{
+  "id": "b90a363c-d694-4e8c-be68-f53eeece2b99",
+  "name": "Jovka Garver",
+  "birthday": "1983-02-26",
+  "pets": []
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 201
+          </code></pre>
         </section>
 
         <section id="return-values">
@@ -319,11 +622,25 @@ sandwiches.make_me_a_sandwich("ham")
                     title="Some REST APIs, like <a target='_blank' href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#output'>Gerrit's</a>, as well as many of Google's and Facebook's APIs, use a &quot;magic prefix&quot; to prevent XSS instead of just returning objects. This is super annoying, since you can't just deserialize the response like most REST libraries want to, but it can help prevent some obscure attacks."></button>
           </div>
 
-          <pre class="wide" id="get-collection-retval"
-               service-uri="/v1/owners/"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v1/owners/
+            </code><code class="json" data-trim>
+{
+  "owners": [
+    "511363b2-8693-4b30-ae4c-09964a4cebe0",
+    "ee5479d6-7070-4109-bfb2-d44e3c42782b",
+    "35a85559-dc03-4aa2-85d2-947e17e310e5",
+    "5e174bc4-4135-4e7b-b957-9705bacc903d",
+    "b90a363c-d694-4e8c-be68-f53eeece2b99"
+  ]
+}
+            </code>
+          </pre>
 
           <aside class="notes">
-            JSON
+            <p>created owner appears in list</p>
+
+            <p>JSON</p>
 
             <p>objects not lists</p>
           </aside>
@@ -332,11 +649,13 @@ sandwiches.make_me_a_sandwich("ham")
         <section id="return-values-non-json">
           <pre class="wide"><code class="bash" data-trim>
 $ curl http://someapp.example.com/v1/books/1
+            </code><code class="json" data-trim>
 {"title": "Moby Dick", "text": "Call me Ishmael. Some years ago...."}
           </code></pre>
 
           <pre class="wide"><code class="bash" data-trim>
 $ curl -H "Accept: text/plain" http://someapp.example.com/v1/books/1
+            </code><code class="json" data-trim>
 Moby Dick
 
 Call me Ishmael. Some years ago....
@@ -352,14 +671,25 @@ Call me Ishmael. Some years ago....
           <pre class="wide"><code class="bash" data-trim>
 $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
       gunzip -c
+            </code><code class="json" data-trim>
 {"title": "Moby Dick", "text": "Call me Ishmael. Some years ago...."}
           </code></pre>
 
           <aside class="notes">
             <p>large result sets</p>
 
-            <p>draft rfc proposes encryption</p>
+            <p>draft rfc proposes
+            encryption: <a href="http://httpwg.org/http-extensions/draft-ietf-httpbis-encryption-encoding.html">http://httpwg.org/http-extensions/draft-ietf-httpbis-encryption-encoding.html</a></p>
           </aside>
+        </section>
+
+        <section id="post-action">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X POST -d '' \
+    http://example.com/v1/servers/335b53b4-7b86-4a3b-976e-75f13a0a9e78/reboot
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 204
+          </code></pre>
         </section>
 
         <section id="verbs-put">
@@ -372,15 +702,45 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="put-modify-example-step1">
-          <pre class="wide" id="put-modify-step1"
-               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
+            </code><code class="json" data-trim>
+{
+  "id": "35a85559-dc03-4aa2-85d2-947e17e310e5",
+  "name": "Jolanda Seaver",
+  "birthday": "1996-08-29",
+  "shoe_size": 8.5,
+  "pets": [
+    "18e1588a-090e-4ace-94c2-f289617de0cb",
+    "4dc4d7b0-a386-4919-9878-47d4eb8f49ec"
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="put-modify-example-step2">
-          <pre class="wide" id="put-modify-step2" verb="PUT"
-               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
-               data="{&quot;name&quot;:&quot;Jolanda Seaver&quot;,&quot;birthday&quot;:&quot;1996-08-29&quot;,&quot;shoe_size&quot;:9}"></pre>
+          <div class="tooltip-buttons">
+            <button class="holy-war" data-toggle="tooltip"
+                    title="There's no great guidance out there on whether or not foreign keys should be part of the record that gets passed to PUT. IMO, PUT should be symmetrical with POST, and I haven't made POST accept foreign keys, so I haven't made PUT do so either."></button>
+          </div>
 
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X PUT \
+    -d '{"name":"Jolanda Seaver","birthday":"1996-08-29","shoe_size":9}' \
+    -H 'Content-Type: application/json' \
+    http://example.com/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
+            </code><code class="json" data-trim>
+{
+  "id": "35a85559-dc03-4aa2-85d2-947e17e310e5",
+  "name": "Jolanda Seaver",
+  "birthday": "1996-08-29",
+  "shoe_size": 9.0,
+  "pets": [
+    "18e1588a-090e-4ace-94c2-f289617de0cb",
+    "4dc4d7b0-a386-4919-9878-47d4eb8f49ec"
+  ]
+}
+          </code></pre>
           <aside class="notes">
             <p>have to specify the entire record</p>
           </aside>
@@ -392,30 +752,71 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
                     title="In general, if you omit a field that can legally be omitted, it should be removed from the record. In practice, not every API is that smart, and you should check the docs and/or TIAS."></button>
           </div>
 
-          <pre class="wide" id="put-modify-bad" verb="PUT"
-               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
-               data="{&quot;shoe_size&quot;:9}"
-               allow-error="true"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X PUT -d '{"shoe_size":9}' -H 'Content-Type: application/json' \
+    http://example.com/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
+</code><code class="json" data-trim>
+{"message": {"name": "Missing required parameter in the JSON body or the post body or the query string"}}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 400
+          </code></pre>
         </section>
 
         <section id="put-idempotent-show-vet">
-          <pre class="wide" id="put-idempotent-show-vet-output"
-               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl \
+    http://example.com/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262
+            </code><code class="json" data-trim>
+{
+  "id": "3cfbb699-d2f2-45cd-b932-be5171887262",
+  "name": "Seong-Min Park"
+}
+          </code></pre>
         </section>
 
         <section id="put-idempotent-show-vet-patients">
-          <pre class="wide" id="put-idempotent-show-vet-patients-output"
-               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl \
+    http://example.com/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/
+            </code><code class="json" data-trim>
+{
+  "patients": [
+    "00182d56-9981-402b-821e-7b1c2906533c",
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="put-idempotent-do-put">
-          <pre class="wide" id="put-idempotent-do-put-output" verb="PUT"
-               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940" ></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X PUT \
+    http://example.com/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940
+            </code><code class="json" data-trim>
+{
+  "patient": {
+    "id": "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
+  },
+  "veterinarian": {
+    "id": "3cfbb699-d2f2-45cd-b932-be5171887262"
+  }
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 201
+            </code></pre>
         </section>
 
         <section id="put-idempotent-show-vet-patients-after">
-          <pre class="wide" id="put-idempotent-show-vet-patients-after-output"
-               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl \
+    http://example.com/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/
+            </code><code class="json" data-trim>
+{
+  "patients": [
+    "00182d56-9981-402b-821e-7b1c2906533c",
+    "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="put-demonstrate-idempotency">
@@ -424,8 +825,21 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
                     title="<b>Lots</b> and lots of APIs don't implement creation via PUT. Often this is for good reasons -- like IDs that must be auto-generated -- but sometimes it's just laziness.<br/><br/><a target='_blank' href='https://gerrit-review.googlesource.com/Documentation/rest-api.html#preconditions'>Gerrit's REST API</a> implements PUT to only be idempotent if you specifically ask it to be, so clearly they know how to do the right thing but decided not to."></button>
           </div>
 
-          <pre class="wide" id="put-demonstrate-idempotency-output" verb="PUT"
-               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940" ></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X PUT \
+    http://example.com/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/d25dcdd0-28f4-4fd3-9e5f-da1d9d224940
+            </code><code class="json" data-trim>
+{
+  "patient": {
+    "id": "d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"
+  },
+  "veterinarian": {
+    "id": "3cfbb699-d2f2-45cd-b932-be5171887262"
+  }
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 200
+            </code></pre>
 
           <aside class="notes">
             200 vs. 201
@@ -433,10 +847,15 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="put-idempotent-compare-post">
-          <pre class="wide" id="put-idempotent-compare-post-output" verb="POST"
-               service-uri="/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/"
-               data="{&quot;pet_id&quot;:&quot;d25dcdd0-28f4-4fd3-9e5f-da1d9d224940&quot;}"
-               allow-error="true"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X POST -d '{"pet_id":"d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"}' \
+    -H 'Content-Type: application/json' \
+    http://example.com/v1/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262/patients/
+            </code><code class="json" data-trim>
+              {"message": "Pet d25dcdd0-28f4-4fd3-9e5f-da1d9d224940 is already assigned to veterinarian 3cfbb699-d2f2-45cd-b932-be5171887262"}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 409
+            </code></pre>
 
           <aside class="notes">
             409
@@ -453,33 +872,97 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="one-to-N-get">
-          <pre class="wide" id="one-to-N-get-output"
-               service-uri="/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e
+            </code><code class="json" data-trim>
+{
+  "id": "72f12e94-33ca-4537-9897-205ffe42350e",
+  "name": "Hellbringer the Befouler",
+  "breed": "domestic shorthair",
+  "veterinarian": "fd87a620-466d-41ae-a6b0-1527b5126c58",
+  "species": "cat",
+  "owners": [
+    "ee5479d6-7070-4109-bfb2-d44e3c42782b"
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="one-to-N-vet-output">
-          <pre class="wide" id="one-to-N-vet-output"
-               service-uri="/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl \
+    http://example.com/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/
+            </code><code class="json" data-trim>
+{
+  "veterinarian": "fd87a620-466d-41ae-a6b0-1527b5126c58",
+}
+          </code></pre>
         </section>
 
         <section id="one-to-N-detail">
-          <pre class="wide" id="one-to-N-detail-output"
-               service-uri="/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/?detail=1"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl \
+    http://example.com/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/\?detail=1
+            </code><code class="json" data-trim>
+{
+  "veterinarian": {
+    "id": "fd87a620-466d-41ae-a6b0-1527b5126c58",
+    "name": "Colobert Bannerman",
+    "specialty": "cats"
+  }
+}
+          </code></pre>
         </section>
 
         <section id="many-to-N-get">
-          <pre class="wide" id="many-to-N-get-output"
-               service-uri="/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec
+            </code><code class="json" data-trim>
+{
+  "id": "4dc4d7b0-a386-4919-9878-47d4eb8f49ec",
+  "name": "Scarface",
+  "breed": "English Bulldog",
+  "veterinarian": "f5df1cc0-4fa2-4605-af57-4da6479e8afa",
+  "species": "dog",
+  "owners": [
+    "35a85559-dc03-4aa2-85d2-947e17e310e5",
+    "5e174bc4-4135-4e7b-b957-9705bacc903d"
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="many-to-N-owners">
-          <pre class="wide" id="many-to-N-owners-output"
-               service-uri="/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec/owners/"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl \
+    http://example.com/v1/pets/4dc4d7b0-a386-4919-9878-47d4eb8f49ec/owners/
+            </code><code class="json" data-trim>
+{
+  "owners": [
+    "35a85559-dc03-4aa2-85d2-947e17e310e5",
+    "5e174bc4-4135-4e7b-b957-9705bacc903d"
+  ]
+}
+          </code></pre>
+
+          <aside class="notes">
+            owners are their own thing, so the subcollection is just
+            convenience. but some resources only exist as part of
+            another resource (e.g., servers and NICs), so only exist
+            as a subcollection
+          </aside>
         </section>
 
         <section id="first-class-relationships">
-          <pre class="wide" id="first-class-relationships-output"
-               service-uri="/v2/ownership/5f5c1ded-32e7-4fb2-9b6f-b0aa05616d67"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v2/ownership/5f5c1ded-32e7-4fb2-9b6f-b0aa05616d67
+            </code><code class="json" data-trim>
+{
+  "id": "5f5c1ded-32e7-4fb2-9b6f-b0aa05616d67",
+  "owner": "511363b2-8693-4b30-ae4c-09964a4cebe0",
+  "pet": "a8533344-6371-4982-a86b-722331839514",
+}
+          </code></pre>
 
           <aside class="notes">
             Better for historical data.
@@ -492,22 +975,88 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="patch-example">
-          <pre class="wide" id="patch" verb="PATCH"
-               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
-               data="{&quot;shoe_size&quot;:9.5}"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X PATCH -d '{"shoe_size":9.5}' -H 'Content-Type: application/json' \
+    http://example.com/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
+            </code><code class="json" data-trim>
+{
+  "id": "35a85559-dc03-4aa2-85d2-947e17e310e5",
+  "name": "Jolanda Seaver",
+  "birthday": "1996-08-29",
+  "shoe_size": 9.5,
+  "pets": [
+    "18e1588a-090e-4ace-94c2-f289617de0cb",
+    "4dc4d7b0-a386-4919-9878-47d4eb8f49ec"
+  ]
+}
+          </code></pre>
         </section>
 
         <section id="patch-update-relationships-pre">
-          <pre class="wide" id="patch-update-relationships-pre-output"
-               service-uri="/v1/pets/bf61616c-010e-48f2-8173-78b330804cd6"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v1/pets/bf61616c-010e-48f2-8173-78b330804cd6
+            </code><code class="json" data-trim>
+{
+  "id": "bf61616c-010e-48f2-8173-78b330804cd6",
+  "name": "Kisses",
+  "species": "Hissing Cockroach",
+  "veterinarian": null,
+  "owners": []
+}
+          </code></pre>
         </section>
 
         <section id="patch-update-relationships">
-          <pre class="wide" id="patch-update-relationships-output" verb="PATCH"
-               service-uri="/v2/pets/bf61616c-010e-48f2-8173-78b330804cd6"
-               data="{&quot;veterinarian&quot;:&quot;3cfbb699-d2f2-45cd-b932-be5171887262&quot;,&quot;owners&quot;:[&quot;ee5479d6-7070-4109-bfb2-d44e3c42782b&quot;]}"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X PATCH \
+    -d '{"veterinarian":"3cfbb699-d2f2-45cd-b932-be5171887262","owners":["ee5479d6-7070-4109-bfb2-d44e3c42782b"]}' \
+    -H 'Content-Type: application/json' \
+    http://example.com/v1/pets/bf61616c-010e-48f2-8173-78b330804cd6
+            </code><code class="json" data-trim>
+{
+  "id": "bf61616c-010e-48f2-8173-78b330804cd6",
+  "name": "Kisses",
+  "species": "Hissing Cockroach",
+  "veterinarian": "3cfbb699-d2f2-45cd-b932-be5171887262",
+  "owners": [
+    "ee5479d6-7070-4109-bfb2-d44e3c42782b"
+  ]
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 200
+          </code></pre>
+
           <aside class="notes">
             Modified resource is always returned
+          </aside>
+        </section>
+
+        <section id="fancy-patch">
+          <pre class="wide"><code class="bash" data-trim>
+$ data='[
+  {"node": "veterinarian",
+   "op": "change",
+   "value": "f5df1cc0-4fa2-4605-af57-4da6479e8afa"},
+  {"node": "owner",
+   "op": "delete",
+   "value": "ee5479d6-7070-4109-bfb2-d44e3c42782b"}
+]'
+$ curl -X PATCH -d "$data" -H 'Content-Type: application/json' \
+    http://example.com/v2/pets/bf61616c-010e-48f2-8173-78b330804cd6
+            </code><code class="json" data-trim>
+{
+  "id": "bf61616c-010e-48f2-8173-78b330804cd6",
+  "name": "Kisses",
+  "species": "Hissing Cockroach",
+  "veterinarian": "f5df1cc0-4fa2-4605-af57-4da6479e8afa",
+  "owners": []
+}
+          </code></pre>
+
+          <aside class="notes">
+            Rarely seen in the wild
+
+            <p>EE</p>
           </aside>
         </section>
 
@@ -516,8 +1065,12 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="delete-example">
-          <pre class="wide" id="delete" verb="DELETE"
-               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X DELETE \
+    http://example.com/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 204
+          </code></pre>
 
           <aside class="notes">
             204
@@ -538,16 +1091,26 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
                     title="The <a target='_blank' href=&quot;http://www.restapitutorial.com/httpstatuscodes.html&quot;>full list of HTTP return codes</a>, including the ever-useful 418."></button>
           </div>
 
-          <pre class="wide" id="delete-404" verb="DELETE"
-               service-uri="/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5"
-               allow-error="true"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X DELETE \
+    http://example.com/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
+            </code><code class="json" data-trim>
+              {"message": "No such owner 35a85559-dc03-4aa2-85d2-947e17e310e5"}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 404
+          </code></pre>
         </section>
 
         <section id="put-409-example">
-          <pre class="wide" id="put-409-output" verb="POST"
-               service-uri="/v1/veterinarians/f5df1cc0-4fa2-4605-af57-4da6479e8afa/patients/"
-               data="{&quot;pet_id&quot;:&quot;a8533344-6371-4982-a86b-722331839514&quot;}"
-               allow-error="true"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X POST -d '{"pet_id":"a8533344-6371-4982-a86b-722331839514"}' \
+    -H 'Content-Type: application/json' \
+    http://example.com/v1/veterinarians/f5df1cc0-4fa2-4605-af57-4da6479e8afa/patients/
+            </code><code class="json" data-trim>
+{"message": "Pet a8533344-6371-4982-a86b-722331839514 is already assigned to veterinarian f5df1cc0-4fa2-4605-af57-4da6479e8afa"}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 409
+            </code></pre>
         </section>
 
         <section id="verb-table">
@@ -594,13 +1157,21 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="auth-every-time">
-          <pre class="wide" id="auth-every-time-401" verb="DELETE"
-               service-uri="/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d"
-               allow-error="true"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X DELETE \
+    http://example.com/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d
+            </code><code class="json" data-trim>
+{"headers": {"WWW-Authenticate": "Basic realm=\"Login Required\""}, "message": "Request requires authentication"}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 401
+            </code></pre>
 
-          <pre class="wide" id="auth-every-time-output" verb="DELETE"
-               service-uri="/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d"
-               authenticate="true"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X DELETE -u stpierre:hunter2 \
+    http://example.com/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 204
+            </code></pre>
 
           <aside class="notes">
             simple! slow?
@@ -608,12 +1179,20 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="auth-token-in-header">
-          <pre class="wide" id="auth-token-get-token"
-               service-uri="/v1/token/" authenticate="true"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -u stpierre:hunter2 http://example.com/v1/token/
+            </code><code class="json" data-trim>
+{
+  "token": "6158a4ff-8d50-47bd-8316-c0008b7cbc88"
+}
+          </code></pre>
 
-          <pre class="wide" id="auth-token-in-header-use-token" verb="DELETE"
-               service-uri="/v2/pets/18e1588a-090e-4ace-94c2-f289617de0cb"
-               headers="{&quot;X-Token&quot;:&quot;6158a4ff-8d50-47bd-8316-c0008b7cbc88&quot;}"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X DELETE -H 'X-Token: 6158a4ff-8d50-47bd-8316-c0008b7cbc88' \
+    http://example.com/v2/pets/18e1588a-090e-4ace-94c2-f289617de0cb
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 204
+          </code></pre>
 
           <aside class="notes">
             more complicated
@@ -623,16 +1202,25 @@ $ curl -H "Accept-Encoding: gzip" http://someapp.example.com/v1/books/1 | \
         </section>
 
         <section id="auth-token-in-cookie">
-          <pre class="wide" id="auth-token-get-cookie"
-               service-uri="/v2/token/" authenticate="true"
-               cookies="display"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -u stpierre:hunter2 -b cookies -c cookies \
+    http://example.com/v2/token/
+$ cat cookies
+localhost	FALSE	/	FALSE	0	token	6158a4ff-8d50-47bd-8316-c0008b7cbc88
+            </code></pre>
 
-          <pre class="wide" id="auth-token-in-cookie-use-token" verb="DELETE"
-               service-uri="/v2/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262"
-               cookies="use"></pre>
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X DELETE -b cookies -c cookies \
+    http://example.com/v2/veterinarians/3cfbb699-d2f2-45cd-b932-be5171887262
+            </code><code class="nohilight" data-trim>
+# HTTP code: 204
+          </code></pre>
 
           <aside class="notes">
             self-documenting
+
+            <p>no special endpoint needed; middleware can handle
+              authn at any endpoint & set cookie</p>
           </aside>
         </section>
 

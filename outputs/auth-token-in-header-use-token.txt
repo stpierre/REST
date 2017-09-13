@@ -1,3 +1,0 @@
-<code class="bash" data-trim>$  curl -X DELETE -H 'X-Token: 6158a4ff-8d50-47bd-8316-c0008b7cbc88' \
-    http://localhost:5000/v2/pets/18e1588a-090e-4ace-94c2-f289617de0cb
-# HTTP code: 204</code>

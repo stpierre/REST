@@ -1,7 +1,0 @@
-<code class="bash" data-trim>$  curl -u stpierre:hunter2 -b cookies -c cookies \
-    http://localhost:5000/v2/token/
-# no output
-
-$ cat cookies
-localhost	FALSE	/	FALSE	0	token	6158a4ff-8d50-47bd-8316-c0008b7cbc88
-</code>

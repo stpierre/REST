@@ -1,4 +1,0 @@
-<code class="bash" data-trim>$  curl -X PUT -d '{"shoe_size":9}' -H 'Content-Type: application/json' \
-    http://localhost:5000/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
-{"message": {"name": "Missing required parameter in the JSON body or the post body or the query string"}}
-# HTTP code: 400</code>
