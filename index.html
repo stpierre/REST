@@ -1228,6 +1228,124 @@ $ curl -X DELETE -b cookies -c cookies \
           </aside>
         </section>
 
+        <section id="async">
+          <h3>Async</h3>
+        </section>
+
+        <section id="get-nth-prime">
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v2/get-nth-prime/?n=2
+            </code><code class="json" data-trim>
+              {"n": 2, "prime": 2}
+          </code></pre>
+        </section>
+
+        <section id="get-nth-prime-big-n">
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v2/get-nth-prime/?n=22389047890
+          </code></pre>
+        </section>
+
+        <section id="get-nth-prime-big-n-202">
+          <pre class="wide"><code class="bash" data-trim>
+              $ curl http://example.com/v2/get-nth-prime/?n=22389047890
+            </code><code class="json" data-trim>
+{
+  "task": {
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
+    "status": "QUEUED"
+  }
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 202
+          </code></pre>
+
+          <aside class="notes">
+            202
+
+            <p>task object</p>
+          </aside>
+        </section>
+
+        <section id="get-nth-prime-poll">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v2/tasks/e8a09eb7-a83e-4d4d-8d31-1208bdb7f990
+            </code><code class="json" data-trim>
+{
+  "task": {
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
+    "status": "PENDING"
+  }
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 200
+          </code></pre>
+        </section>
+
+        <section id="get-nth-prime-poll-complete">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v2/tasks/e8a09eb7-a83e-4d4d-8d31-1208bdb7f990
+            </code><code class="json" data-trim>
+{
+  "task": {
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
+    "status": "COMPLETE",
+    "result": {"n": 22389047890, "prime": 583235838259}
+  }
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 200
+          </code></pre>
+
+          <aside class="notes">
+            might want richer task obj
+          </aside>
+        </section>
+
+        <section id="get-nth-prime-poll-error">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl http://example.com/v2/tasks/e8a09eb7-a83e-4d4d-8d31-1208bdb7f990
+            </code><code class="json" data-trim>
+{
+  "task": {
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
+    "status": "ERROR",
+    "error": {
+      "message": "Ran out of numbers, contact your sysadmin to add more"
+    }
+  }
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 200
+          </code></pre>
+        </section>
+
+        <section id="boot-vm-asyc">
+          <pre class="wide"><code class="bash" data-trim>
+$ curl -X POST -d '{"image": "myimage", "flavor": "m1.tiny"}' \
+    http://example.com/v2/servers
+            </code><code class="json" data-trim>
+{
+  "instance": {
+    "id": "3a7ab55d-83cd-4cc0-aca0-e8feab4fb62b",
+    "hostname": "i-908af05e",
+    "image": "myimage",
+    ...
+    "status": "CREATING"
+  }
+}
+            </code><code class="nohilight" data-trim>
+              # HTTP code: 202
+          </code></pre>
+
+          <aside class="notes">
+            no need for separate object, can just poll object
+
+            <p>can handle many async ops on same obj, e.g., deleting,
+              rebooting, etc.</p>
+          </aside>
+        </section>
+
         <section id="fin">
           <h1>?</h1>
         </section>
