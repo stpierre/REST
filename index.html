@@ -1366,6 +1366,18 @@ $ curl -X POST -d '{"image": "myimage", "flavor": "m1.tiny"}' \
         </section>
       </div>
     </div>
+
+    <div id="hidden" style="display:none;">
+      <div id="footer">
+        <div class="footer">
+          <a target="_blank"
+             href="http://twitter.com/chris_st_pierre">@chris_st_pierre</a>
+          | <a target="_blank"
+               href="https://stpierre.github.io/REST/">stpierre.github.io/REST/</a>
+          </div>
+      </div>
+    </div>
+
     <script src="lib/js/head.min.js"></script>
     <script src="js/reveal.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
@@ -1395,6 +1407,14 @@ $ curl -X POST -d '{"image": "myimage", "flavor": "m1.tiny"}' \
       ]
       });
 
+      var footer = $('#footer').html();
+      if (window.location.search.match(/print-pdf/gi)) {
+        Reveal.addEventListener('ready', function(event) {
+          $('.slide-background').append(footer);
+        });
+      } else {
+        $('div.reveal').append(footer);
+      };
     </script>
 
   </body>

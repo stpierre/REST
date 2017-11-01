@@ -43,3 +43,9 @@ div.tooltip-inner {
     font-size: small;
     padding: 5px;
 }
+
+div.footer {
+    position: absolute;
+    bottom: 1%;
+    left: 1%;
+}
