@@ -149,7 +149,7 @@ curl -X POST -d '{"type": "ham"}' \
 
           <aside class="notes">
             <ul>
-              <li>Serve similar</li>
+              <li>Serve similar purposes</li>
               <li>SOAP: super complex, never really caught on</li>
               <li>XML-RPC: simpler, drawbacks.</li>
             </ul>
@@ -169,6 +169,11 @@ curl -X POST -d '{"type": "ham"}' \
         </section>
 
         <section id="verbs-and-endpoints-example">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                    title="This example uses JSON, but that's technically just a convention; REST <i>could</i> use TOML or XML or CSV, but it rarely does. Some applications let you change the format -- you can request data in either JSON or XML, for instance -- but it's hard to see the utility of that."></button>
+          </div>
+
           <pre class="wide"><code class="http" data-trim>
               GET http://example.com/v1/pets/ HTTP/1.0
             </code><code class="json" data-trim>
@@ -340,6 +345,8 @@ $ curl http://example.com/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0
             <button class="holy-war" data-toggle="tooltip"
                     title="Most people agree that the resource name should be plural, but there's a significant contingent of singular partisans, and even some people who think your application should support both."></button>
           </div>
+
+          <pre class="wide">/v1/owners</pre>
 
           <pre class="wide">/v1/owners/511363b2-8693-4b30-ae4c-09964a4cebe0</pre>
 
@@ -693,7 +700,7 @@ $ curl -X POST -d '' \
 
         <section id="verbs-put">
           <h2>PUT</h2>
-          <h3>Create/update (idempotent)</h3>
+          <h3>Create/replace (idempotent)</h3>
 
           <aside class="notes">
             Mostly modify
@@ -768,7 +775,10 @@ $ curl \
             </code><code class="json" data-trim>
 {
   "id": "3cfbb699-d2f2-45cd-b932-be5171887262",
-  "name": "Seong-Min Park"
+  "name": "Seong-Min Park",
+  "patients": [
+    "00182d56-9981-402b-821e-7b1c2906533c",
+  ]
 }
           </code></pre>
         </section>
@@ -866,7 +876,7 @@ $ curl -X POST -d '{"pet_id":"d25dcdd0-28f4-4fd3-9e5f-da1d9d224940"}' \
           <h3>One-to-one, one-to-many, many-to-many</h3>
 
           <aside class="notes">
-            Only two patterns -- 1-to-1 and 1-to-N same
+            Substantial overlap in patterns
           </aside>
         </section>
 
@@ -893,7 +903,7 @@ $ curl \
     http://example.com/v1/pets/72f12e94-33ca-4537-9897-205ffe42350e/veterinarian/
             </code><code class="json" data-trim>
 {
-  "veterinarian": "fd87a620-466d-41ae-a6b0-1527b5126c58",
+  "veterinarian": "fd87a620-466d-41ae-a6b0-1527b5126c58"
 }
           </code></pre>
         </section>
@@ -1133,6 +1143,11 @@ $ curl -X POST -d '{"pet_id":"a8533344-6371-4982-a86b-722331839514"}' \
                 <td>Read</td>
               </tr>
               <tr>
+                <td>HEAD</td>
+                <td>N/A</td>
+                <td>Check existence</td>
+              </tr>
+              <tr>
                 <td>POST</td>
                 <td>Create</td>
                 <td>N/A</td>
@@ -1140,12 +1155,12 @@ $ curl -X POST -d '{"pet_id":"a8533344-6371-4982-a86b-722331839514"}' \
               <tr>
                 <td>PUT</td>
                 <td>N/A</td>
-                <td>Update/replace (idempotent)</td>
+                <td>Create/replace (idempotent)</td>
               </tr>
               <tr>
                 <td>PATCH</td>
                 <td>N/A</td>
-                <td>Partial update/modify</td>
+                <td>Partial update</td>
               </tr>
               <tr>
                 <td>DELETE</td>
@@ -1184,7 +1199,7 @@ $ curl -X DELETE -u stpierre:hunter2 \
 
         <section id="auth-token-in-header">
           <pre class="wide"><code class="bash" data-trim>
-$ curl -u stpierre:hunter2 http://example.com/v1/token/
+$ curl -u stpierre:hunter2 http://example.com/v2/token/
             </code><code class="json" data-trim>
 {
   "token": "6158a4ff-8d50-47bd-8316-c0008b7cbc88"
@@ -1252,7 +1267,7 @@ $ curl -X DELETE -b cookies -c cookies \
             </code><code class="json" data-trim>
 {
   "task": {
-    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990",
     "status": "QUEUED"
   }
 }
@@ -1273,7 +1288,7 @@ $ curl http://example.com/v2/tasks/e8a09eb7-a83e-4d4d-8d31-1208bdb7f990
             </code><code class="json" data-trim>
 {
   "task": {
-    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990",
     "status": "PENDING"
   }
 }
@@ -1288,8 +1303,8 @@ $ curl http://example.com/v2/tasks/e8a09eb7-a83e-4d4d-8d31-1208bdb7f990
             </code><code class="json" data-trim>
 {
   "task": {
-    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
-    "status": "COMPLETE",
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990",
+    "status": "COMPLETE",,
     "result": {"n": 22389047890, "prime": 583235838259}
   }
 }
@@ -1308,7 +1323,7 @@ $ curl http://example.com/v2/tasks/e8a09eb7-a83e-4d4d-8d31-1208bdb7f990
             </code><code class="json" data-trim>
 {
   "task": {
-    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990"
+    "id": "e8a09eb7-a83e-4d4d-8d31-1208bdb7f990",
     "status": "ERROR",
     "error": {
       "message": "Ran out of numbers, contact your sysadmin to add more"
