@@ -634,8 +634,7 @@ $ curl -X POST -d '{"name":"Jovka Garver","birthday":"1983-02-26"}' \
     "b90a363c-d694-4e8c-be68-f53eeece2b99"
   ]
 }
-            </code>
-          </pre>
+          </code></pre>
 
           <aside class="notes">
             <p>created owner appears in list</p>
@@ -1065,6 +1064,11 @@ $ curl -X PATCH -d "$data" -H 'Content-Type: application/json' \
         </section>
 
         <section id="delete-example">
+          <div class="tooltip-buttons">
+            <button class="academic" data-toggle="tooltip"
+                  title="<a target='_blank' href='http://blog.ploeh.dk/2013/04/30/rest-lesson-learned-avoid-204-responses/'>Some people get upset about 204s</a> because OMG LINKS! You probably already know that I think they're wrong, though."></button>
+          </div>
+
           <pre class="wide"><code class="bash" data-trim>
 $ curl -X DELETE \
     http://example.com/v1/owners/35a85559-dc03-4aa2-85d2-947e17e310e5
@@ -1152,7 +1156,7 @@ $ curl -X POST -d '{"pet_id":"a8533344-6371-4982-a86b-722331839514"}' \
           </table>
         </section>
 
-        <section id="caching">
+        <section id="authentication">
           <h3>Authentication</h3>
         </section>
 
@@ -1164,14 +1168,14 @@ $ curl -X DELETE \
 {"headers": {"WWW-Authenticate": "Basic realm=\"Login Required\""}, "message": "Request requires authentication"}
             </code><code class="nohilight" data-trim>
               # HTTP code: 401
-            </code></pre>
+          </code></pre>
 
           <pre class="wide"><code class="bash" data-trim>
 $ curl -X DELETE -u stpierre:hunter2 \
     http://example.com/v2/owners/5e174bc4-4135-4e7b-b957-9705bacc903d
             </code><code class="nohilight" data-trim>
               # HTTP code: 204
-            </code></pre>
+          </code></pre>
 
           <aside class="notes">
             simple! slow?
